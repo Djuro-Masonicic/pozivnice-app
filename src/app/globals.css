@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fdfaf5;
+  --foreground: #3a2e1e;
+  --gold: #b8973a;
+  --gold-light: #d4b86a;
+  --gold-pale: #f0e2b0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-serif: var(--font-cormorant);
+  --font-script: var(--font-great-vibes);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-cormorant), Georgia, serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════════
+   KEYFRAMES  (kept outside @layer so they
+   are always available to @layer utilities)
+   ══════════════════════════════════════════ */
+
+@keyframes border-shimmer {
+  0%,100% { opacity: 0.12; }
+  50%     { opacity: 0.65; }
+}
+
+@keyframes fade-in-up {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes reveal {
+  0%   { opacity: 0; transform: translateY(14px); }
+  100% { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes twinkle {
+  0%,100% { opacity: 0;    transform: scale(0.5) rotate(0deg);   }
+  15%     { opacity: 0;    transform: scale(0.5) rotate(0deg);   }
+  35%     { opacity: 1;    transform: scale(1.3) rotate(45deg);  }
+  55%     { opacity: 0.85; transform: scale(1.1) rotate(90deg);  }
+  75%     { opacity: 1;    transform: scale(1.2) rotate(135deg); }
+  90%     { opacity: 0.2;  transform: scale(0.7) rotate(180deg); }
+}
+
+@keyframes gold-pulse {
+  0%,100% { opacity: 0.6;  transform: scale(1);    }
+  50%     { opacity: 1;    transform: scale(1.5);  }
+}
+
+@keyframes text-shimmer {
+  0%,100% { color: #b8973a; }
+  50%     { color: #e8c96a; }
+}
+
+@keyframes glow-pulse {
+  0%,100% { text-shadow: 0 0 0px rgba(184,151,58,0); }
+  50%     { text-shadow: 0 0 24px rgba(212,184,106,0.6), 0 0 48px rgba(212,184,106,0.25); }
+}
+
+@keyframes logo-breathe {
+  0%,100% { transform: scale(1);    filter: drop-shadow(0 0 0px rgba(184,151,58,0)); }
+  50%     { transform: scale(1.04); filter: drop-shadow(0 0 12px rgba(184,151,58,0.4)); }
+}
+
+/* ══════════════════════════════════════════
+   ANIMATION UTILITY CLASSES
+   ══════════════════════════════════════════ */
+
+@layer utilities {
+  .animate-border-shimmer {
+    animation: border-shimmer 4.5s ease-in-out infinite;
+  }
+  .animate-border-shimmer-delay {
+    animation: border-shimmer 4.5s ease-in-out infinite 2.25s;
+  }
+  .animate-fade-in-up {
+    animation: fade-in-up 1.1s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  .animate-twinkle {
+    animation: twinkle 3.5s ease-in-out infinite;
+  }
+  .animate-gold-pulse {
+    animation: gold-pulse 2.8s ease-in-out infinite;
+  }
+  .animate-text-shimmer {
+    animation: text-shimmer 2.5s ease-in-out infinite;
+  }
+  .animate-glow-pulse {
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+  .animate-logo-breathe {
+    animation: logo-breathe 4s ease-in-out infinite;
+  }
+}
+

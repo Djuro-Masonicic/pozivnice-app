@@ -28,6 +28,159 @@ body {
    are always available to @layer utilities)
    ══════════════════════════════════════════ */
 
+/* Scroll indicator: light travels down the line endlessly */
+@keyframes travel-down {
+  0%   { top: -30px; opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { top: 60px;  opacity: 0; }
+}
+
+.scroll-travel-dot {
+  position: absolute;
+  top: -30px;
+  left: -2px;
+  right: -2px;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, #c4896f 90%);
+  border-radius: 0 0 2px 2px;
+  animation: travel-down 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ══════════════════════════════════════════
+   ENVELOPE ANIMATION
+   Timeline (total ≈ 3.6s):
+   0.0–0.6s  : envelope flies in from bottom
+   0.6–1.1s  : envelope settles + pause
+   1.1–1.6s  : lid opens upward
+   1.6–2.3s  : paper rises out
+   2.3–3.2s  : paper expands to full screen
+   3.2–3.6s  : text content fades in
+   ══════════════════════════════════════════ */
+
+/* Whole envelope: fly in from below */
+@keyframes env-fly-in {
+  0%   { transform: translateY(120%) scale(0.7); opacity: 0; }
+  60%  { opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+/* Wax seal: rolls off like a coin knocked sideways */
+@keyframes seal-roll {
+  0%   { transform: translate(-50%, -50%) rotate(0deg)    scale(1);    opacity: 1; }
+  12%  { transform: translate(-53%, -64%) rotate(-18deg)  scale(1.08); opacity: 1; }
+  40%  { transform: translate(-68%, -44%) rotate(-90deg)  scale(0.85); opacity: 1; }
+  72%  { transform: translate(-88%, -28%) rotate(-175deg) scale(0.5);  opacity: 0.5; }
+  100% { transform: translate(-104%,-16%) rotate(-230deg) scale(0.15); opacity: 0; }
+}
+/* Envelope lid: fold open */
+@keyframes env-lid-open {
+  0%   { transform: rotateX(0deg); }
+  100% { transform: rotateX(-180deg); }
+}
+/* Inner paper: jumps out of envelope as a sibling above the envelope wrapper */
+@keyframes inner-paper-jump {
+  0%   { transform: translateY(0); }
+  35%  { transform: translateY(-160px); }
+  65%  { transform: translateY(-160px); }
+  100% { transform: translateY(0); }
+}
+/* Paper: expands from envelope-size to full screen */
+@keyframes paper-expand {
+  from { clip-path: inset(calc(50% - 90px) calc(50% - 150px)); }
+  to   { clip-path: inset(0px 0px); }
+}
+/* Envelope body: fade out while paper expands */
+@keyframes env-body-fade {
+  0%   { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+/* Hero text: fade up in after paper is full screen */
+@keyframes hero-text-in {
+  0%   { opacity: 0; transform: translateY(18px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+/* Typing reveal: clip from right → left */
+@keyframes type-in {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+/* Cursor blink */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+/* Border segments — animate scaleX / scaleY to draw around */
+@keyframes border-h { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes border-v { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+/* Dot pop at top-center */
+@keyframes border-dot {
+  0%   { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  60%  { transform: translate(-50%, -50%) scale(1.6); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: scaleY(1); opacity: 0.4; }
+  50%      { transform: scaleY(1.6); opacity: 1; }
+}
+
+/* ── Grain overlay ── */
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.28;
+}
+
+/* ── About grid (2 col on desktop, 1 on mobile) ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+@media (min-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+}
+
+/* ── Hero CTA button hover ── */
+.hero-btn:hover {
+  border-color: rgba(196,137,111,0.7) !important;
+  color: #c4896f !important;
+}
+
+/* ── Section CTA button hover ── */
+.section-cta:hover {
+  opacity: 0.88;
+}
+
+/* ── Contact row hover ── */
+.contact-row:hover span:last-child {
+  color: #c4896f !important;
+}
+
+/* ── Section nav — hide on mobile ── */
+.section-nav-wrap {
+  display: none;
+}
+@media (min-width: 900px) {
+  .section-nav-wrap {
+    display: flex;
+  }
+}
+
+/* ── About link hover ── */
+.about-link:hover {
+  color: #1a1917 !important;
+  border-color: rgba(26,25,23,0.4) !important;
+}
+
 @keyframes border-shimmer {
   0%,100% { opacity: 0.12; }
   50%     { opacity: 0.65; }
@@ -70,6 +223,147 @@ body {
 @keyframes logo-breathe {
   0%,100% { transform: scale(1);    filter: drop-shadow(0 0 0px rgba(184,151,58,0)); }
   50%     { transform: scale(1.04); filter: drop-shadow(0 0 12px rgba(184,151,58,0.4)); }
+}
+
+/* ══════════════════════════════════════════
+   SCROLL REVEAL
+   ══════════════════════════════════════════ */
+
+.sr-hidden {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sr-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ══════════════════════════════════════════
+   PHOTO CARD HOVER  
+   ══════════════════════════════════════════ */
+
+.photo-card {
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+
+.photo-card img {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.7s ease;
+  transform-origin: center center;
+}
+
+.photo-card:hover img {
+  transform: scale(1.07);
+  filter: brightness(0.85);
+}
+
+.photo-card .card-overlay {
+  transition: background 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+
+.photo-card:hover .card-overlay {
+  background: rgba(10, 7, 2, 0.55) !important;
+}
+
+.photo-card .card-label-sub {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease 0.1s, transform 0.4s cubic-bezier(0.22,1,0.36,1) 0.1s;
+}
+
+.photo-card:hover .card-label-sub {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.photo-card .card-arrow {
+  transform: translateX(-6px);
+  opacity: 0;
+  transition: opacity 0.35s ease 0.15s, transform 0.35s cubic-bezier(0.22,1,0.36,1) 0.15s;
+}
+
+.photo-card:hover .card-arrow {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* ══════════════════════════════════════════
+   INVITATION CARD HOVER
+   ══════════════════════════════════════════ */
+
+.inv-card {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.35s ease,
+              border-color 0.35s ease;
+}
+
+.inv-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(184,151,58,0.14), 0 4px 16px rgba(0,0,0,0.06);
+  border-color: rgba(184,151,58,0.55) !important;
+}
+
+.inv-card .inv-photo img {
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+
+.inv-card:hover .inv-photo img {
+  transform: scale(1.06);
+}
+
+/* ══════════════════════════════════════════
+   FILTER ANIMATION
+   ══════════════════════════════════════════ */
+
+@keyframes card-in {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.card-appear {
+  animation: card-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ══════════════════════════════════════════
+   NAVIGATION LINK HOVER
+   ══════════════════════════════════════════ */
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #b8973a;
+  transition: width 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ══════════════════════════════════════════
+   SCROLL LINE — hide on small screens
+   ══════════════════════════════════════════ */
+
+.scroll-line-wrap {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .scroll-line-wrap {
+    display: block;
+  }
 }
 
 /* ══════════════════════════════════════════

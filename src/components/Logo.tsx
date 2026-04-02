@@ -1,11 +1,11 @@
-export default function Logo({ className }: { className?: string }) {
+export default function Logo({ className, compact }: { className?: string; compact?: boolean }) {
   return (
     <div className={`flex flex-col items-center ${className ?? ""}`}>
       {/* Envelope + sparkle icon */}
       <svg
         viewBox="0 0 220 155"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-32 h-auto"
+        className={compact ? "w-20 h-auto" : "w-32 h-auto"}
         aria-hidden="true"
       >
         {/* Envelope body */}
@@ -39,7 +39,7 @@ export default function Logo({ className }: { className?: string }) {
         <span
           style={{
             fontFamily: "var(--font-great-vibes), cursive",
-            fontSize: "2.4rem",
+            fontSize: compact ? "1.6rem" : "2.4rem",
             color: "#b8973a",
             lineHeight: 1,
             letterSpacing: "0.01em",
@@ -50,7 +50,7 @@ export default function Logo({ className }: { className?: string }) {
         <span
           style={{
             fontFamily: "var(--font-cormorant), Georgia, serif",
-            fontSize: "1.75rem",
+            fontSize: compact ? "1.15rem" : "1.75rem",
             color: "#3a3530",
             lineHeight: 1,
             marginLeft: "1px",

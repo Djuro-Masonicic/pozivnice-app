@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Great_Vibes } from "next/font/google";
+import { Playfair_Display, Parisienne } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { ConditionalNavbar, ConditionalFooter } from "@/components/ConditionalLayout";
 
-const cormorant = Cormorant_Garamond({
+const playfair = Playfair_Display({
   variable: "--font-cormorant",
   subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   style: ["normal", "italic"],
   display: "optional",
 });
 
-const greatVibes = Great_Vibes({
+const parisienne = Parisienne({
   variable: "--font-great-vibes",
   subsets: ["latin", "latin-ext"],
   weight: "400",
@@ -18,8 +21,9 @@ const greatVibes = Great_Vibes({
 });
 
 export const metadata: Metadata = {
-  title: "e-pozivnice.me | Uskoro",
-  description: "Elegantne digitalne pozivnice za najljepše trenutke — uskoro dostupno.",
+  title: "e-pozivnice.me | Elegantne Digitalne Pozivnice",
+  description:
+    "Naručite elegantne digitalne pozivnice za vjenčanja, rođendane, mature i korporativne evente. Personalizovano, brzo i s ljubavlju.",
 };
 
 export default function RootLayout({
@@ -29,11 +33,14 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={`${cormorant.variable} ${greatVibes.variable} antialiased`}
-      style={{ height: "100%" }}
+      lang="bs"
+      className={`${playfair.variable} ${parisienne.variable} antialiased`}
     >
-      <body style={{ height: "100%", margin: 0 }}>{children}</body>
+      <body style={{ margin: 0, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        <ConditionalNavbar />
+        <div style={{ flex: 1 }}>{children}</div>
+        <ConditionalFooter />
+      </body>
     </html>
   );
 }

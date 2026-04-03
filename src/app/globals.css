@@ -124,6 +124,16 @@ body {
   50%      { transform: scaleY(1.6); opacity: 1; }
 }
 
+/* Scroll tip dot pulsing glow */
+@keyframes scroll-tip-pulse {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(196,137,111,0.4); }
+  50%      { box-shadow: 0 0 20px 6px rgba(196,137,111,0.7); }
+}
+
+.scroll-tip-dot {
+  animation: scroll-tip-pulse 2s ease-in-out infinite;
+}
+
 /* ── Grain overlay ── */
 .grain-overlay {
   position: absolute;
@@ -135,17 +145,175 @@ body {
   opacity: 0.28;
 }
 
-/* ── About grid (2 col on desktop, 1 on mobile) ── */
+/* ══════════════════════════════════════════
+   RESPONSIVE LAYOUT
+   ══════════════════════════════════════════ */
+
+/* ── About grid ── */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 3rem;
+  gap: 2rem;
 }
 @media (min-width: 768px) {
   .about-grid {
     grid-template-columns: 1fr 1fr;
     gap: 6rem;
     align-items: center;
+  }
+}
+
+/* ── Category grid ── */
+.category-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  .category-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+/* ── Section padding ── */
+.section-pad {
+  padding: 3.5rem 1.5rem;
+}
+@media (min-width: 768px) {
+  .section-pad {
+    padding: 6rem 4rem;
+  }
+}
+
+/* ── Section full height (desktop only) ── */
+.section-full {
+  min-height: 100dvh;
+}
+
+/* ── Hero content padding ── */
+.hero-content-pad {
+  padding: 2rem 1.5rem;
+  max-width: 900px;
+  width: 100%;
+  box-sizing: border-box;
+}
+@media (min-width: 768px) {
+  .hero-content-pad {
+    padding: 2.5rem 5.5rem;
+  }
+}
+
+/* ── Category images ── */
+.category-image {
+  aspect-ratio: 3/4;
+}
+
+/* ── Mobile overrides ── */
+@media (max-width: 767px) {
+  .section-full {
+    min-height: auto;
+  }
+
+  /* ── About section mobile ── */
+  .about-grid {
+    text-align: center;
+    gap: 1.75rem !important;
+  }
+
+  .about-link {
+    align-self: center !important;
+  }
+
+  /* ── Category sections: dramatic image overlay cards ── */
+  #weddings.section-pad,
+  #birthdays.section-pad {
+    padding: 0 !important;
+    background: #0a0908 !important;
+  }
+
+  #weddings .category-grid,
+  #birthdays .category-grid {
+    position: relative;
+    min-height: 85vw;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0 !important;
+  }
+
+  /* Image fills entire section background */
+  .mob-img-wrap {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    overflow: hidden;
+  }
+
+  .mob-img-wrap .category-image {
+    width: 100% !important;
+    height: 100% !important;
+    aspect-ratio: unset !important;
+    min-height: unset !important;
+    border-radius: 0 !important;
+  }
+
+  /* Text overlay with cinematic gradient */
+  #weddings-text,
+  .bd-text {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    align-items: center !important;
+    padding: 35vw 1.5rem 2.5rem !important;
+    gap: 1rem !important;
+  }
+
+  #weddings-text::before,
+  .bd-text::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top,
+      rgba(10,9,8,0.95) 0%,
+      rgba(10,9,8,0.82) 35%,
+      rgba(10,9,8,0.4) 65%,
+      transparent 100%
+    );
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* White text on dark overlay */
+  #weddings-text h2,
+  .bd-text h2 {
+    color: #f8f5f0 !important;
+  }
+
+  #weddings-text p,
+  .bd-text p {
+    color: rgba(248,245,240,0.7) !important;
+  }
+
+  /* Frosted glass CTA button on overlay */
+  #weddings .section-cta,
+  #birthdays .section-cta {
+    background: rgba(248,245,240,0.1) !important;
+    border: 1px solid rgba(248,245,240,0.2) !important;
+    color: #f8f5f0 !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Contact rows */
+  .contact-row {
+    padding: 1rem 0.5rem !important;
+  }
+
+  /* Section dividers hidden */
+  .section-divider {
+    display: none !important;
   }
 }
 
@@ -360,9 +528,26 @@ body {
   display: none;
 }
 
+.scroll-connector-wrap {
+  display: none;
+}
+
 @media (min-width: 1024px) {
   .scroll-line-wrap {
     display: block;
+  }
+  .scroll-connector-wrap {
+    display: block;
+  }
+}
+
+/* ── Mobile scroll line — show on mobile only ── */
+.mobile-line-wrap {
+  display: block;
+}
+@media (min-width: 1024px) {
+  .mobile-line-wrap {
+    display: none;
   }
 }
 

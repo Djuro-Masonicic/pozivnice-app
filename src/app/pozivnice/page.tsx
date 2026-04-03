@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -145,7 +145,7 @@ function InvitationCard({ inv, animDelay }: { inv: (typeof invitations)[number];
   );
 }
 
-export default function PozivnicePage() {
+function PozivniceContent() {
   const searchParams = useSearchParams();
   const initialCat = (searchParams.get("cat") as Category | null) ?? "sve";
   const [activeTab, setActiveTab] = useState<FilterTab>(
@@ -282,5 +282,13 @@ export default function PozivnicePage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function PozivnicePage() {
+  return (
+    <Suspense>
+      <PozivniceContent />
+    </Suspense>
   );
 }

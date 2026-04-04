@@ -21,6 +21,7 @@ body {
   font-family: var(--font-cormorant), Georgia, serif;
   position: relative;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ══════════════════════════════════════════
@@ -45,6 +46,13 @@ body {
   background: linear-gradient(to bottom, transparent, #c4896f 90%);
   border-radius: 0 0 2px 2px;
   animation: travel-down 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+
+@media (max-width: 1023px) {
+  .scroll-travel-dot, .scroll-line-wrap {
+    display: none !important;
+  }
 }
 
 /* ══════════════════════════════════════════
@@ -212,11 +220,14 @@ body {
 
 /* ── Mobile overrides ── */
 @media (max-width: 767px) {
+
+  /* Avoid full-viewport locking on mobile to keep scroll fluid */
   .section-full {
     min-height: auto;
+    box-sizing: border-box;
   }
 
-  /* ── About section mobile ── */
+  /* About section mobile */
   .about-grid {
     text-align: center;
     gap: 1.75rem !important;
@@ -226,84 +237,97 @@ body {
     align-self: center !important;
   }
 
-  /* ── Category sections: dramatic image overlay cards ── */
+  /* Section 3/4 card stack */
   #weddings.section-pad,
   #birthdays.section-pad {
-    padding: 0 !important;
-    background: #0a0908 !important;
+    padding: 2.8rem 1rem !important;
+    background: #f4f0eb !important;
   }
 
   #weddings .category-grid,
   #birthdays .category-grid {
-    position: relative;
-    min-height: 85vw;
-    display: flex !important;
+    display: block;
+  }
+
+  .feature-stack {
+    width: min(640px, 100%);
+    margin: 0 auto;
+    display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    gap: 0 !important;
   }
 
-  /* Image fills entire section background */
-  .mob-img-wrap {
-    position: absolute !important;
-    inset: 0 !important;
-    z-index: 0 !important;
-    overflow: hidden;
-  }
-
-  .mob-img-wrap .category-image {
-    width: 100% !important;
-    height: 100% !important;
-    aspect-ratio: unset !important;
-    min-height: unset !important;
-    border-radius: 0 !important;
-  }
-
-  /* Text overlay with cinematic gradient */
-  #weddings-text,
-  .bd-text {
+  .feature-card {
+    background: #f8f4ee;
+    border-radius: 20px;
+    box-shadow: 0 18px 42px rgba(24, 17, 10, 0.1);
+    padding: 1.9rem 1.25rem;
     position: relative;
     z-index: 2;
     text-align: center;
-    align-items: center !important;
-    padding: 35vw 1.5rem 2.5rem !important;
-    gap: 1rem !important;
   }
 
-  #weddings-text::before,
-  .bd-text::before {
-    content: '';
+  .feature-card .section-cta {
+    margin-top: 0.35rem;
+  }
+
+  .feature-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 0;
+    border-radius: 18px;
+    object-fit: cover;
+    box-shadow: 0 14px 34px rgba(24, 17, 10, 0.15);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Contact section  */
+  #contact {
+    justify-content: center;
+    align-items: center;
+    border-top: none !important;
+  }
+
+  /* Remove any visible section seams on mobile */
+  main > section,
+  #about,
+  #weddings,
+  #birthdays,
+  #contact {
+    border-top: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  main > section + section {
+    margin-top: -1px !important;
+  }
+
+  /* Paint over any subpixel seam between stacked sections */
+  #about,
+  #weddings,
+  #birthdays,
+  #contact {
+    position: relative;
+  }
+
+  #about::before,
+  #weddings::before,
+  #birthdays::before,
+  #contact::before {
+    content: "";
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to top,
-      rgba(10,9,8,0.95) 0%,
-      rgba(10,9,8,0.82) 35%,
-      rgba(10,9,8,0.4) 65%,
-      transparent 100%
-    );
-    z-index: -1;
+    left: 0;
+    right: 0;
+    top: -2px;
+    height: 3px;
+    background: inherit;
+    z-index: 1;
     pointer-events: none;
-  }
-
-  /* White text on dark overlay */
-  #weddings-text h2,
-  .bd-text h2 {
-    color: #f8f5f0 !important;
-  }
-
-  #weddings-text p,
-  .bd-text p {
-    color: rgba(248,245,240,0.7) !important;
-  }
-
-  /* Frosted glass CTA button on overlay */
-  #weddings .section-cta,
-  #birthdays .section-cta {
-    background: rgba(248,245,240,0.1) !important;
-    border: 1px solid rgba(248,245,240,0.2) !important;
-    color: #f8f5f0 !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
   }
 
   /* Contact rows */
@@ -315,6 +339,7 @@ body {
   .section-divider {
     display: none !important;
   }
+
 }
 
 /* ── Hero CTA button hover ── */
@@ -521,34 +546,75 @@ body {
 }
 
 /* ══════════════════════════════════════════
-   SCROLL LINE — hide on small screens
+   SCROLL LINE
+   Desktop: full wrapping connector (scroll-connector-wrap)
+   Mobile:  wrapping connector adapted for stacked layout (mobile-line-wrap)
    ══════════════════════════════════════════ */
 
 .scroll-line-wrap {
   display: none;
 }
 
+/* Desktop wrapping connector — desktop only */
 .scroll-connector-wrap {
-  display: none;
+  display: block;
 }
 
 @media (min-width: 1024px) {
   .scroll-line-wrap {
     display: block;
   }
-  .scroll-connector-wrap {
-    display: block;
-  }
 }
 
-/* ── Mobile scroll line — show on mobile only ── */
+/* Mobile wrapping connector — mobile only */
 .mobile-line-wrap {
   display: block;
 }
+
 @media (min-width: 1024px) {
   .mobile-line-wrap {
     display: none;
   }
+}
+
+.mobile-wrap-connector {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .mobile-wrap-connector {
+    display: none;
+  }
+}
+
+@keyframes mobile-line-shimmer {
+  0%, 100% { opacity: 0.88; }
+  50% { opacity: 1; }
+}
+
+@keyframes mobile-line-glow {
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.32; }
+}
+
+@keyframes mobile-dot-sparkle {
+  0%, 100% { opacity: 0.95; filter: drop-shadow(0 0 2px rgba(196,137,111,0.45)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 7px rgba(196,137,111,0.8)); }
+}
+
+.mobile-wrap-path-glow {
+  stroke: rgba(196,137,111,0.72);
+  animation: mobile-line-glow 2.2s ease-in-out infinite;
+}
+
+.mobile-wrap-path-main {
+  stroke: rgba(196,137,111,0.95);
+  animation: mobile-line-shimmer 1.8s ease-in-out infinite;
+}
+
+.mobile-wrap-dot {
+  fill: #c4896f;
+  animation: mobile-dot-sparkle 1.8s ease-in-out infinite;
 }
 
 /* ══════════════════════════════════════════
@@ -581,4 +647,3 @@ body {
     animation: logo-breathe 4s ease-in-out infinite;
   }
 }
-

@@ -828,44 +828,158 @@ function ScrollConnector() {
   );
 }
 
-// ─── Mobile scroll line: elegant vertical timeline ─────────────
-function MobileScrollLine() {
-  const [, mTick] = useState(0);
-  const mGeo = useRef<{
-    startY: number; endY: number;
-    sectionYs: number[]; progress: number;
+// ─── Mobile wrap connector: hero -> weddings -> birthdays -> contact ───
+function MobileWrapConnector() {
+  const [line, setLine] = useState<{
+    d: string;
+    length: number;
+    progress: number;
+    width: number;
+    height: number;
+    firstDotX: number;
+    firstDotY: number;
   } | null>(null);
 
   useEffect(() => {
     let rafId = 0;
+    const ns = "http://www.w3.org/2000/svg";
     const update = () => {
+      if (window.innerWidth >= 1024) {
+        setLine(null);
+        return;
+      }
+
       const heroBox = document.getElementById("hero-content");
-      const sectionEls = ["about", "weddings", "birthdays", "contact"]
-        .map(id => document.getElementById(id))
-        .filter((el): el is HTMLElement => el !== null);
-      if (!heroBox || sectionEls.length < 4) return;
+      const aboutHeading = document.getElementById("about-heading");
+      const aboutText = document.getElementById("about-text-block");
+      const wBox = document.getElementById("weddings-text");
+      const wImg = document.getElementById("weddings-image");
+      const bBox = document.getElementById("birthdays-text");
+      const bImg = document.getElementById("birthdays-image");
+      const cBox = document.getElementById("contact-content");
+      if (!heroBox || !aboutHeading || !aboutText || !wBox || !wImg || !bBox || !bImg || !cBox) return;
 
       const sy = window.scrollY;
       const vh = window.innerHeight;
       const hRect = heroBox.getBoundingClientRect();
-
-      const startY = hRect.bottom + sy + 16;
-      const sectionYs = sectionEls.map(el => el.getBoundingClientRect().top + sy);
-      const endY = sectionEls[3].getBoundingClientRect().bottom + sy - 40;
-
       const scrollEnd = document.documentElement.scrollHeight - vh;
       const progress = scrollEnd > 0 ? Math.min(Math.max(sy / scrollEnd, 0), 1) : 0;
 
-      mGeo.current = { startY, endY, sectionYs, progress };
-      mTick(n => n + 1);
+      const rect = (el: HTMLElement, pad: number) => {
+        const r = el.getBoundingClientRect();
+        return {
+          l: Math.round(r.left - pad),
+          r: Math.round(r.right + pad),
+          t: Math.round(r.top + sy - pad),
+          b: Math.round(r.bottom + sy + pad),
+          cx: Math.round(r.left + r.width / 2),
+        };
+      };
+
+      const aboutHeadRect = rect(aboutHeading, 0);
+      const aboutTextRect = rect(aboutText, 0);
+      const aboutPadX = 22;
+      const aboutPadTop = 10;
+      const aboutPadBottom = 16;
+      const about = {
+        l: Math.min(aboutHeadRect.l, aboutTextRect.l) - aboutPadX,
+        r: Math.max(aboutHeadRect.r, aboutTextRect.r) + aboutPadX,
+        t: Math.min(aboutHeadRect.t, aboutTextRect.t) - aboutPadTop,
+        b: Math.max(aboutHeadRect.b, aboutTextRect.b) + aboutPadBottom,
+        cx: Math.round((Math.min(aboutHeadRect.l, aboutTextRect.l) + Math.max(aboutHeadRect.r, aboutTextRect.r)) / 2),
+      };
+      const wCard = rect(wBox, 0);
+      const wImage = rect(wImg, 0);
+      const bCard = rect(bBox, 0);
+      const bImage = rect(bImg, 0);
+      const contactBase = rect(cBox, 0);
+      const contact = { ...contactBase, b: contactBase.b + 28 };
+
+      const startX = Math.round(hRect.left + hRect.width / 2);
+      // Hero decorative bottom border is rendered below hero-content by ~21px.
+      // Align line start/dot to that visible border, not the raw element box.
+      const startY = Math.round(hRect.bottom + sy + 21);
+      const cmds: string[] = [`M ${startX} ${startY}`];
+
+      let curX = startX;
+      let curY = startY;
+
+      const connectToTopCenter = (box: { t: number; cx: number }) => {
+        const midY = (curY + box.t) / 2;
+        cmds.push(`L ${curX} ${midY}`, `L ${box.cx} ${midY}`, `L ${box.cx} ${box.t}`);
+        curX = box.cx;
+        curY = box.t;
+      };
+
+      const wrapSingle = (box: { l: number; r: number; t: number; b: number; cx: number }) => {
+        cmds.push(
+          `L ${box.l} ${box.t}`,
+          `L ${box.l} ${box.b}`,
+          `L ${box.r} ${box.b}`,
+          `L ${box.cx} ${box.b}`
+        );
+        curX = box.cx;
+        curY = box.b;
+      };
+
+      const wrapCardThenImage = (
+        card: { l: number; r: number; t: number; b: number },
+        image: { r: number; t: number; b: number; cx: number }
+      ) => {
+        const seamY = card.b;
+
+        // left border of card -> bottom border of card
+        cmds.push(`L ${card.l} ${card.t}`, `L ${card.l} ${seamY}`, `L ${card.r} ${seamY}`);
+
+        // then right border of image -> middle of image bottom
+        cmds.push(`L ${image.r} ${seamY}`, `L ${image.r} ${image.b}`, `L ${image.cx} ${image.b}`);
+        curX = image.cx;
+        curY = image.b;
+      };
+
+      // Section 2: drop from hero bottom-center to about top-center
+      cmds.push(`L ${curX} ${about.t}`, `L ${about.cx} ${about.t}`);
+      curX = about.cx;
+      curY = about.t;
+      wrapSingle(about);
+
+      // Section 3
+      connectToTopCenter(wCard);
+      wrapCardThenImage(wCard, wImage);
+
+      // Section 4
+      connectToTopCenter(bCard);
+      wrapCardThenImage(bCard, bImage);
+
+      // Contact
+      connectToTopCenter(contact);
+      wrapSingle(contact);
+
+      const d = cmds.join(" ");
+      const path = document.createElementNS(ns, "path");
+      path.setAttribute("d", d);
+      const length = path.getTotalLength();
+
+      setLine({
+        d,
+        length,
+        progress,
+        width: window.innerWidth,
+        height: document.documentElement.scrollHeight,
+        firstDotX: startX,
+        firstDotY: startY,
+      });
     };
+
     const onScroll = () => {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(update);
     };
+
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     rafId = requestAnimationFrame(update);
+
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
@@ -873,87 +987,38 @@ function MobileScrollLine() {
     };
   }, []);
 
-  const geo = mGeo.current;
-  if (!geo || geo.progress <= 0) return null;
-
-  const { startY, endY, sectionYs, progress } = geo;
-  const totalH = endY - startY;
-  const drawnH = Math.min(progress * totalH * 1.15, totalH);
-  const X = 18;
+  if (!line || line.progress <= 0) return null;
+  const drawn = line.length * line.progress;
 
   return (
-    <div className="mobile-line-wrap" style={{
-      position: "absolute", inset: 0, pointerEvents: "none", zIndex: 50, overflow: "visible",
-    }}>
-      {/* Soft glow behind line */}
-      {drawnH > 0 && (
-        <div style={{
-          position: "absolute", left: X - 3, top: startY,
-          width: 6, height: drawnH,
-          background: "linear-gradient(to bottom, transparent, rgba(196,137,111,0.12) 10%, rgba(196,137,111,0.12) 90%, transparent)",
-          filter: "blur(4px)",
-          borderRadius: 3,
-        }} />
-      )}
-
-      {/* Main vertical line */}
-      {drawnH > 0 && (
-        <div style={{
-          position: "absolute", left: X - 1, top: startY,
-          width: 2, height: drawnH,
-          background: "linear-gradient(to bottom, rgba(196,137,111,0.15), rgba(196,137,111,0.4) 15%, rgba(196,137,111,0.4) 85%, rgba(196,137,111,0.15))",
-          borderRadius: 1,
-        }} />
-      )}
-
-      {/* Start dot */}
-      <div style={{
-        position: "absolute", top: startY - 4, left: X - 4,
-        width: 8, height: 8, borderRadius: "50%",
-        background: "#c4896f",
-        boxShadow: "0 0 12px 3px rgba(196,137,111,0.5)",
-      }} />
-
-      {/* Section boundary markers */}
-      {sectionYs.map((y, i) => {
-        if (drawnH < y - startY) return null;
-        return (
-          <div key={i}>
-            <div style={{
-              position: "absolute", top: y - 4, left: X - 4,
-              width: 8, height: 8, borderRadius: "50%",
-              background: "#c4896f",
-              boxShadow: "0 0 12px 3px rgba(196,137,111,0.45)",
-            }} />
-            <div style={{
-              position: "absolute", left: X + 6, top: y - 0.5,
-              width: 14, height: 1,
-              background: "rgba(196,137,111,0.3)",
-            }} />
-          </div>
-        );
-      })}
-
-      {/* Animated tip dot */}
-      {drawnH > 8 && drawnH < totalH - 8 && (
-        <div className="scroll-tip-dot" style={{
-          position: "absolute",
-          left: X - 5, top: startY + drawnH - 5,
-          width: 10, height: 10, borderRadius: "50%",
-          background: "#c4896f",
-          boxShadow: "0 0 16px 4px rgba(196,137,111,0.6)",
-        }} />
-      )}
-
-      {/* End dot */}
-      {drawnH >= totalH - 2 && (
-        <div style={{
-          position: "absolute", top: endY - 4, left: X - 4,
-          width: 8, height: 8, borderRadius: "50%",
-          background: "#c4896f",
-          boxShadow: "0 0 12px 3px rgba(196,137,111,0.5)",
-        }} />
-      )}
+    <div className="mobile-wrap-connector" style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 45, overflow: "visible" }}>
+      <svg
+        width="100%"
+        height={line.height}
+        viewBox={`0 0 ${line.width} ${line.height}`}
+        preserveAspectRatio="none"
+        style={{ position: "absolute", inset: 0 }}
+      >
+        <path
+          d={line.d}
+          fill="none"
+          className="mobile-wrap-path-glow"
+          strokeWidth={3.2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray={`${drawn} ${Math.max(line.length - drawn, 0)}`}
+        />
+        <path
+          d={line.d}
+          fill="none"
+          className="mobile-wrap-path-main"
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray={`${drawn} ${Math.max(line.length - drawn, 0)}`}
+        />
+        <circle cx={line.firstDotX} cy={line.firstDotY} r="3.5" className="mobile-wrap-dot" />
+      </svg>
     </div>
   );
 }
@@ -962,6 +1027,15 @@ function MobileScrollLine() {
 export default function Home() {
   const [active, setActive] = useState(0);
   const [animDone, setAnimDone] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsDesktop(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     if (!animDone) return;
@@ -980,9 +1054,9 @@ export default function Home() {
 
   return (
     <main style={{ background: "#0a0908", position: "relative" }}>
-      {animDone && <SectionNav active={active} />}
-      {animDone && <ScrollConnector />}
-      {animDone && <MobileScrollLine />}
+      {animDone && isDesktop && <SectionNav active={active} />}
+      {animDone && isDesktop && <ScrollConnector />}
+      {animDone && !isDesktop && <MobileWrapConnector />}
 
       {/* ══ HERO ══════════════════════════════════════════════════ */}
       <section
@@ -1016,6 +1090,7 @@ export default function Home() {
         >
           <Animate from="left">
             <p
+              id="about-heading"
               style={{
                 fontFamily: "var(--font-great-vibes), cursive",
                 fontSize: "clamp(2rem, 5.5vw, 4.5rem)",
@@ -1029,7 +1104,7 @@ export default function Home() {
           </Animate>
 
           <Animate from="right" delay={180}>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            <div id="about-text-block" style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
               <p
                 style={{
                   fontFamily: "var(--font-cormorant), serif",
@@ -1081,10 +1156,8 @@ export default function Home() {
         className="section-pad section-full"
         style={{
           background: "#f4f0eb",
-          position: "relative",
           display: "flex",
           alignItems: "center",
-          overflowX: "hidden",
         }}
       >
         <div
@@ -1096,80 +1169,73 @@ export default function Home() {
             width: "100%",
           }}
         >
-          <div id="weddings-text" style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-            <Animate from="left">
-              <p
-                style={{
-                  fontFamily: "var(--font-great-vibes), cursive",
-                  fontSize: "1.35rem",
-                  color: "#c4896f",
-                  margin: "0 0 0.2rem",
-                }}
-              >
-                Naša kolekcija
-              </p>
-            </Animate>
-            <Animate delay={110} from="left">
-              <h2
-                style={{
-                  fontFamily: "var(--font-cormorant), serif",
-                  fontSize: "clamp(2.8rem, 7vw, 5.5rem)",
-                  fontWeight: 400,
-                  color: "#1a1917",
-                  lineHeight: 1,
-                  margin: "0 0 1.1rem",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                Vjenčanja
-              </h2>
-            </Animate>
-            <Animate delay={220} from="left">
-              <p
-                style={{
-                  fontFamily: "var(--font-cormorant), serif",
-                  fontSize: "1.15rem",
-                  color: "#4a3f35",
-                  lineHeight: 1.75,
-                  maxWidth: "460px",
-                  marginBottom: "2rem",
-                  fontStyle: "italic",
-                }}
-              >
-                Romantične, elegantne pozivnice za najvažniji dan vašeg života.
-              </p>
-            </Animate>
-            <Animate delay={330} from="left">
-              <Link
-                href="/pozivnice?cat=vjencanje"
-                className="section-cta"
-                style={{
-                  fontFamily: "var(--font-cormorant), serif",
-                  fontSize: "0.78rem",
-                  letterSpacing: "0.28em",
-                  textTransform: "uppercase",
-                  color: "#f8f5f0",
-                  background: "#1a1917",
-                  padding: "14px 38px",
-                  textDecoration: "none",
-                  display: "inline-block",
-                }}
-              >
-                Pogledajte kolekciju
-              </Link>
-            </Animate>
-          </div>
-          <Animate from="right" delay={200} className="mob-img-wrap">
-            <div className="category-image" style={{ position: "relative", width: "100%", borderRadius: "4px", overflow: "hidden" }}>
+          {isDesktop ? (
+            <>
+              <div id="weddings-text" style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                <Animate from="left">
+                  <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "1.35rem", color: "#c4896f", margin: "0 0 0.2rem" }}>
+                    Naša kolekcija
+                  </p>
+                </Animate>
+                <Animate delay={110} from="left">
+                  <h2 style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "clamp(2.8rem, 7vw, 5.5rem)", fontWeight: 400, color: "#1a1917", lineHeight: 1, margin: "0 0 1.1rem", letterSpacing: "-0.01em" }}>
+                    Vjenčanja
+                  </h2>
+                </Animate>
+                <Animate delay={220} from="left">
+                  <p style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "1.15rem", color: "#4a3f35", lineHeight: 1.75, maxWidth: "460px", marginBottom: "2rem", fontStyle: "italic" }}>
+                    Romantične, elegantne pozivnice za najvažniji dan vašeg života.
+                  </p>
+                </Animate>
+                <Animate delay={330} from="left">
+                  <Link href="/pozivnice?cat=vjencanje" className="section-cta" style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "0.78rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "#f8f5f0", background: "#1a1917", padding: "14px 38px", textDecoration: "none", display: "inline-block" }}>
+                    Pogledajte kolekciju
+                  </Link>
+                </Animate>
+              </div>
+              <Animate from="right" delay={200}>
+                <div className="category-image" style={{ position: "relative", width: "100%", borderRadius: "4px", overflow: "hidden" }}>
+                  <Image
+                    src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=1067&fit=crop&q=85"
+                    alt="Vjenčanje"
+                    fill
+                    style={{ objectFit: "cover" }}
+                    priority
+                  />
+                </div>
+              </Animate>
+            </>
+          ) : (
+            <div className="feature-stack">
+              <div className="feature-card" id="weddings-text">
+                <Animate from="left">
+                  <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "1.35rem", color: "#c4896f", margin: "0 0 0.2rem" }}>Naša kolekcija</p>
+                </Animate>
+                <Animate delay={110} from="left">
+                  <h2 style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "clamp(2.2rem, 8vw, 3.2rem)", fontWeight: 400, color: "#1a1917", lineHeight: 1, margin: "0 0 1.1rem", letterSpacing: "-0.01em" }}>Vjenčanja</h2>
+                </Animate>
+                <Animate delay={220} from="left">
+                  <p style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "1.05rem", color: "#4a3f35", lineHeight: 1.75, maxWidth: "420px", marginBottom: "1.5rem", fontStyle: "italic" }}>
+                    Romantične, elegantne pozivnice za najvažniji dan vašeg života.
+                  </p>
+                </Animate>
+                <Animate delay={330} from="left">
+                  <Link href="/pozivnice?cat=vjencanje" className="section-cta" style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "0.78rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "#f8f5f0", background: "#1a1917", padding: "14px 38px", textDecoration: "none", display: "inline-block" }}>
+                    Pogledajte kolekciju
+                  </Link>
+                </Animate>
+              </div>
               <Image
                 src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=1067&fit=crop&q=85"
                 alt="Vjenčanje"
-                fill
-                style={{ objectFit: "cover" }}
+                id="weddings-image"
+                className="feature-image"
+                width={560}
+                height={360}
                 priority
               />
             </div>
-          </Animate>
+          )}
         </div>
       </section>
 
@@ -1179,10 +1245,8 @@ export default function Home() {
         className="section-pad section-full"
         style={{
           background: "#f4f0eb",
-          position: "relative",
           display: "flex",
           alignItems: "center",
-          overflowX: "hidden",
         }}
       >
         <div
@@ -1193,79 +1257,71 @@ export default function Home() {
             width: "100%",
           }}
         >
-          <Animate from="left" delay={200} className="bd-image mob-img-wrap">
-            <div className="category-image" style={{ position: "relative", width: "100%", borderRadius: "4px", overflow: "hidden" }}>
+          {isDesktop ? (
+            <>
+              <Animate from="left" delay={200}>
+                <div className="category-image" style={{ position: "relative", width: "100%", borderRadius: "4px", overflow: "hidden" }}>
+                  <Image
+                    src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=1067&fit=crop&q=85"
+                    alt="Rođendan"
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+              </Animate>
+              <div id="birthdays-text" style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                <Animate from="right">
+                  <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "1.35rem", color: "#c4896f", margin: "0 0 0.2rem" }}>
+                    Naša kolekcija
+                  </p>
+                </Animate>
+                <Animate delay={110} from="right">
+                  <h2 style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "clamp(2.8rem, 7vw, 5.5rem)", fontWeight: 400, color: "#1a1917", lineHeight: 1, margin: "0 0 1.1rem", letterSpacing: "-0.01em" }}>
+                    Rođendani
+                  </h2>
+                </Animate>
+                <Animate delay={220} from="right">
+                  <p style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "1.15rem", color: "#4a3f35", lineHeight: 1.75, maxWidth: "420px", marginBottom: "2rem", fontStyle: "italic" }}>
+                    Pozivnice pune radosti za proslave koje će se dugo pamtiti.
+                  </p>
+                </Animate>
+                <Animate delay={330} from="right">
+                  <Link href="/pozivnice?cat=rodjendan" className="section-cta" style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "0.78rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "#f8f5f0", background: "#1a1917", padding: "14px 38px", textDecoration: "none", display: "inline-block" }}>
+                    Pogledajte kolekciju
+                  </Link>
+                </Animate>
+              </div>
+            </>
+          ) : (
+            <div className="feature-stack">
+              <div className="feature-card" id="birthdays-text">
+                <Animate from="right">
+                  <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "1.35rem", color: "#c4896f", margin: "0 0 0.2rem" }}>Naša kolekcija</p>
+                </Animate>
+                <Animate delay={110} from="right">
+                  <h2 style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "clamp(2.2rem, 8vw, 3.2rem)", fontWeight: 400, color: "#1a1917", lineHeight: 1, margin: "0 0 1.1rem", letterSpacing: "-0.01em" }}>Rođendani</h2>
+                </Animate>
+                <Animate delay={220} from="right">
+                  <p style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "1.05rem", color: "#4a3f35", lineHeight: 1.75, maxWidth: "420px", marginBottom: "1.5rem", fontStyle: "italic" }}>
+                    Pozivnice pune radosti za proslave koje će se dugo pamtiti.
+                  </p>
+                </Animate>
+                <Animate delay={330} from="right">
+                  <Link href="/pozivnice?cat=rodjendan" className="section-cta" style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "0.78rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "#f8f5f0", background: "#1a1917", padding: "14px 38px", textDecoration: "none", display: "inline-block" }}>
+                    Pogledajte kolekciju
+                  </Link>
+                </Animate>
+              </div>
               <Image
                 src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=1067&fit=crop&q=85"
                 alt="Rođendan"
-                fill
-                style={{ objectFit: "cover" }}
+                id="birthdays-image"
+                className="feature-image"
+                width={560}
+                height={360}
               />
             </div>
-          </Animate>
-          <div id="birthdays-text" className="bd-text" style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-            <Animate from="right">
-              <p
-                style={{
-                  fontFamily: "var(--font-great-vibes), cursive",
-                  fontSize: "1.35rem",
-                  color: "#c4896f",
-                  margin: "0 0 0.2rem",
-                }}
-              >
-                Naša kolekcija
-              </p>
-            </Animate>
-            <Animate delay={110} from="right">
-              <h2
-                style={{
-                  fontFamily: "var(--font-cormorant), serif",
-                  fontSize: "clamp(2.8rem, 7vw, 5.5rem)",
-                  fontWeight: 400,
-                  color: "#1a1917",
-                  lineHeight: 1,
-                  margin: "0 0 1.1rem",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                Rođendani
-              </h2>
-            </Animate>
-            <Animate delay={220} from="right">
-              <p
-                style={{
-                  fontFamily: "var(--font-cormorant), serif",
-                  fontSize: "1.15rem",
-                  color: "#4a3f35",
-                  lineHeight: 1.75,
-                  maxWidth: "420px",
-                  marginBottom: "2rem",
-                  fontStyle: "italic",
-                }}
-              >
-                Pozivnice pune radosti za proslave koje će se dugo pamtiti.
-              </p>
-            </Animate>
-            <Animate delay={330} from="right">
-              <Link
-                href="/pozivnice?cat=rodjendan"
-                className="section-cta"
-                style={{
-                  fontFamily: "var(--font-cormorant), serif",
-                  fontSize: "0.78rem",
-                  letterSpacing: "0.28em",
-                  textTransform: "uppercase",
-                  color: "#f8f5f0",
-                  background: "#1a1917",
-                  padding: "14px 38px",
-                  textDecoration: "none",
-                  display: "inline-block",
-                }}
-              >
-                Pogledajte kolekciju
-              </Link>
-            </Animate>
-          </div>
+          )}
         </div>
       </section>
 
@@ -1278,7 +1334,7 @@ export default function Home() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          borderTop: "1px solid rgba(255,255,255,0.04)",
+          borderTop: isDesktop ? "1px solid rgba(255,255,255,0.04)" : "none",
         }}
       >
         <div

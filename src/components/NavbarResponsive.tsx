@@ -84,7 +84,7 @@ export default function NavbarResponsive() {
               textDecoration: "none",
               lineHeight: 0,
               minWidth: 0,
-              maxWidth: "168px",
+              maxWidth: "146px",
               overflow: "hidden",
               flexShrink: 1,
             }}

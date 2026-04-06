@@ -1,12 +1,10 @@
 ﻿"use client";
 
-import React, { useEffect, useRef, useState, type CSSProperties, type ElementType, type ReactNode } from "react";
+import React, { useEffect, useRef, useState, type ElementType, type HTMLAttributes, type ReactNode } from "react";
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
   delay?: number;
-  style?: CSSProperties;
-  className?: string;
   as?: ElementType;
 }
 
@@ -16,6 +14,7 @@ export default function ScrollReveal({
   style,
   className = "",
   as: Tag = "div",
+  ...rest
 }: Props) {
   const ref = useRef<HTMLElement>(null);
   const [isReady, setIsReady] = useState(false);
@@ -28,7 +27,7 @@ export default function ScrollReveal({
     const frameId = window.requestAnimationFrame(() => {
       setIsReady(true);
     });
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    let timeoutId: number | null = null;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -45,9 +44,7 @@ export default function ScrollReveal({
     observer.observe(el);
 
     return () => {
-      if (frameId !== null) {
-        window.cancelAnimationFrame(frameId);
-      }
+      window.cancelAnimationFrame(frameId);
       if (timeoutId !== null) {
         window.clearTimeout(timeoutId);
       }
@@ -60,6 +57,7 @@ export default function ScrollReveal({
       ref={ref}
       className={`${isReady ? "sr-ready" : ""} ${isVisible ? "sr-visible" : "sr-hidden"} ${className}`.trim()}
       style={style}
+      {...rest}
     >
       {children}
     </Tag>

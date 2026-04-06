@@ -5,7 +5,7 @@ export default function Logo({ className, compact }: { className?: string; compa
       <svg
         viewBox="0 0 220 155"
         xmlns="http://www.w3.org/2000/svg"
-        className={`logo-icon ${compact ? "w-[clamp(3.4rem,13vw,4.5rem)] h-auto" : "w-32 h-auto"}`}
+        className={`logo-icon ${compact ? "w-[clamp(2.9rem,11vw,3.9rem)] h-auto" : "w-32 h-auto"}`}
         aria-hidden="true"
       >
         {/* Envelope body */}
@@ -39,7 +39,7 @@ export default function Logo({ className, compact }: { className?: string; compa
         <span
           style={{
             fontFamily: "var(--font-great-vibes), cursive",
-            fontSize: compact ? "clamp(1.1rem, 4.8vw, 1.5rem)" : "2.4rem",
+            fontSize: compact ? "clamp(0.98rem, 4.1vw, 1.32rem)" : "2.4rem",
             color: "#b8973a",
             lineHeight: 1,
             letterSpacing: "0.01em",
@@ -50,7 +50,7 @@ export default function Logo({ className, compact }: { className?: string; compa
         <span
           style={{
             fontFamily: "var(--font-cormorant), Georgia, serif",
-            fontSize: compact ? "clamp(0.9rem, 3.6vw, 1.05rem)" : "1.75rem",
+            fontSize: compact ? "clamp(0.78rem, 3vw, 0.92rem)" : "1.75rem",
             color: "#3a3530",
             lineHeight: 1,
             marginLeft: "1px",

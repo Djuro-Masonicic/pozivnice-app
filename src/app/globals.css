@@ -6,6 +6,8 @@
   --gold: #b8973a;
   --gold-light: #d4b86a;
   --gold-pale: #f0e2b0;
+  --font-cormorant: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-great-vibes: "Snell Roundhand", "Brush Script MT", cursive;
 }
 
 @theme inline {
@@ -381,6 +383,12 @@ body {
 .tab-grid .tab-button:nth-child(3) { animation-delay: 140ms; }
 .tab-grid .tab-button:nth-child(4) { animation-delay: 190ms; }
 .tab-grid .tab-button:nth-child(5) { animation-delay: 240ms; }
+
+@media (max-width: 767px) {
+  .tab-grid .tab-button:last-child {
+    grid-column: 1 / -1;
+  }
+}
 
 /* ══════════════════════════════════════════
    KEYFRAMES  (kept outside @layer so they

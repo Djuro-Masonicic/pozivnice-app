@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import React, { useEffect, useRef, type ReactNode, type CSSProperties, type ElementType } from "react";
+import React, { useEffect, useRef, useState, type CSSProperties, type ElementType, type ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -18,18 +18,24 @@ export default function ScrollReveal({
   as: Tag = "div",
 }: Props) {
   const ref = useRef<HTMLElement>(null);
+  const [isReady, setIsReady] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    // Already in view (e.g. first paint above fold) → show immediately
+    const frameId = window.requestAnimationFrame(() => {
+      setIsReady(true);
+    });
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          el.style.transitionDelay = delay ? `${delay}ms` : "";
-          el.classList.remove("sr-hidden");
-          el.classList.add("sr-visible");
+          timeoutId = window.setTimeout(() => {
+            setIsVisible(true);
+          }, delay);
           observer.unobserve(el);
         }
       },
@@ -37,11 +43,24 @@ export default function ScrollReveal({
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+
+    return () => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+      }
+      observer.disconnect();
+    };
   }, [delay]);
 
   return (
-    <Tag ref={ref} className={`sr-hidden ${className}`} style={style}>
+    <Tag
+      ref={ref}
+      className={`${isReady ? "sr-ready" : ""} ${isVisible ? "sr-visible" : "sr-hidden"} ${className}`.trim()}
+      style={style}
+    >
       {children}
     </Tag>
   );

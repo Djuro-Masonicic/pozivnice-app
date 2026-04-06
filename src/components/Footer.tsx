@@ -1,11 +1,11 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Logo from "./Logo";
 
 const footerLinks = [
-  { href: "/", label: "Početna" },
+  { href: "/pocetna", label: "Početna" },
   { href: "/pozivnice", label: "Pozivnice" },
   { href: "/o-nama", label: "O Nama" },
-  { href: "/o-nama#kontakt", label: "Kontakt" },
+  { href: "/kontakt", label: "Kontakt" },
 ];
 
 export default function Footer() {
@@ -14,7 +14,7 @@ export default function Footer() {
       style={{
         background: "#130e08",
         borderTop: "1px solid rgba(184,151,58,0.25)",
-        padding: "3.5rem 1.5rem 2.5rem",
+        padding: "clamp(2.75rem, 9vw, 3.5rem) clamp(1rem, 4vw, 1.5rem) clamp(2rem, 7vw, 2.5rem)",
       }}
     >
       <div
@@ -28,14 +28,12 @@ export default function Footer() {
           textAlign: "center",
         }}
       >
-        {/* Logo */}
         <Logo compact className="opacity-90" />
 
-        {/* Tagline */}
         <p
           style={{
             fontFamily: "var(--font-great-vibes), cursive",
-            fontSize: "1.35rem",
+            fontSize: "clamp(1.15rem, 5vw, 1.35rem)",
             color: "rgba(184,151,58,0.7)",
             lineHeight: 1,
           }}
@@ -43,7 +41,6 @@ export default function Footer() {
           Vaše priče, naše pozivnice
         </p>
 
-        {/* Gold divider */}
         <div
           style={{
             width: "60px",
@@ -52,15 +49,14 @@ export default function Footer() {
           }}
         />
 
-        {/* Nav links */}
-        <nav style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "2rem" }}>
+        <nav style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.9rem 1.5rem", maxWidth: "520px" }}>
           {footerLinks.map(({ href, label }) => (
             <Link
               key={`${href}-${label}`}
               href={href}
               style={{
                 fontFamily: "var(--font-cormorant), Georgia, serif",
-                fontSize: "0.875rem",
+                fontSize: "clamp(0.78rem, 3.2vw, 0.875rem)",
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
                 color: "rgba(253,250,245,0.5)",
@@ -72,7 +68,6 @@ export default function Footer() {
           ))}
         </nav>
 
-        {/* Gold divider */}
         <div
           style={{
             width: "60px",
@@ -81,13 +76,13 @@ export default function Footer() {
           }}
         />
 
-        {/* Copyright */}
         <p
           style={{
             fontFamily: "var(--font-cormorant), Georgia, serif",
-            fontSize: "0.8rem",
+            fontSize: "clamp(0.72rem, 3vw, 0.8rem)",
             color: "rgba(253,250,245,0.25)",
             letterSpacing: "0.08em",
+            lineHeight: 1.6,
           }}
         >
           © 2026 e-pozivnice.me &mdash; Sva prava zadržana

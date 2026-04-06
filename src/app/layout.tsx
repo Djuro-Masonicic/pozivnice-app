@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Parisienne } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { ConditionalNavbar, ConditionalFooter } from "@/components/ConditionalLayout";
 
 const playfair = Playfair_Display({

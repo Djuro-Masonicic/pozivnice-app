@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { useState, useCallback, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -47,10 +47,11 @@ function InvitationCard({ inv, animDelay }: { inv: (typeof invitations)[number];
       style={{
         display: "flex",
         flexDirection: "column",
-        border: "1px solid rgba(184,151,58,0.25)",
-        background: "rgba(253,250,245,0.96)",
+        border: "1px solid rgba(160,121,33,0.36)",
+        background: "rgba(255,252,246,0.98)",
         overflow: "hidden",
         animationDelay: `${animDelay}ms`,
+        boxShadow: "0 14px 34px rgba(98, 70, 16, 0.06)",
       }}
     >
       {/* Photo preview area */}
@@ -58,7 +59,7 @@ function InvitationCard({ inv, animDelay }: { inv: (typeof invitations)[number];
         className="inv-photo"
         style={{
           position: "relative",
-          height: "210px",
+          height: "clamp(190px, 52vw, 210px)",
           background: palette.bg,
           overflow: "hidden",
           borderBottom: `1px solid ${palette.border}`,
@@ -92,7 +93,7 @@ function InvitationCard({ inv, animDelay }: { inv: (typeof invitations)[number];
 
         {/* Centred title overlay */}
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "6px", zIndex: 4 }}>
-          <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "1.9rem", color: palette.primary, lineHeight: 1, textShadow: `0 2px 16px ${palette.bg}` }}>
+          <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "clamp(1.55rem, 6vw, 1.9rem)", color: palette.primary, lineHeight: 1, textShadow: `0 2px 16px ${palette.bg}`, textAlign: "center", padding: "0 0.75rem" }}>
             {inv.title}
           </p>
           <div style={{ display: "flex", alignItems: "center", gap: "8px", width: "90px" }}>
@@ -114,13 +115,13 @@ function InvitationCard({ inv, animDelay }: { inv: (typeof invitations)[number];
       </div>
 
       {/* Card body */}
-      <div className="flex flex-col gap-3 p-5">
+      <div className="flex flex-col gap-3 p-4 sm:p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.75rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "#b8973a", border: "1px solid rgba(184,151,58,0.45)", padding: "2px 10px" }}>
+          <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.75rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "#8f6712", border: "1px solid rgba(160,121,33,0.52)", padding: "2px 10px", background: "rgba(184,151,58,0.08)" }}>
             {categoryLabels[inv.category]}
           </span>
           {inv.badges.map((badge) => (
-            <span key={badge} style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.7rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#7a6030", background: "rgba(184,151,58,0.1)", padding: "2px 8px" }}>
+            <span key={badge} style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.7rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#5f4510", background: "rgba(184,151,58,0.14)", padding: "2px 8px" }}>
               {badge}
             </span>
           ))}
@@ -128,15 +129,15 @@ function InvitationCard({ inv, animDelay }: { inv: (typeof invitations)[number];
         <h2 style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "1.35rem", fontWeight: 300, color: "#2c2013", letterSpacing: "0.04em", lineHeight: 1.2 }}>
           {inv.title}
         </h2>
-        <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "1rem", color: "#5c4a2a", lineHeight: 1.65, fontStyle: "italic" }}>
+        <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "1rem", color: "#352716", lineHeight: 1.65, fontStyle: "italic" }}>
           {inv.description}
         </p>
-        <div style={{ height: "1px", background: "rgba(184,151,58,0.2)", margin: "4px 0" }} />
-        <div className="flex items-center justify-between">
-          <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "1.15rem", color: "#b8973a", letterSpacing: "0.05em" }}>
+        <div style={{ height: "1px", background: "rgba(160,121,33,0.24)", margin: "4px 0" }} />
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "1.15rem", color: "#91670e", letterSpacing: "0.05em" }}>
             {inv.price}
           </span>
-          <Link href="/o-nama#kontakt" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.8rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#fdfaf5", background: "#b8973a", padding: "7px 18px", textDecoration: "none", border: "1px solid #b8973a" }}>
+          <Link href="/kontakt" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.8rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#fdfaf5", background: "#b8973a", padding: "10px 18px", textDecoration: "none", border: "1px solid #b8973a", textAlign: "center", width: "100%", maxWidth: "190px" }}>
             Narucite
           </Link>
         </div>
@@ -155,11 +156,6 @@ function PozivniceContent() {
   const [filterKey, setFilterKey] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  useEffect(() => {
-    const cat = searchParams.get("cat") as Category | null;
-    if (cat && tabs.some((t) => t.key === cat)) setActiveTab(cat);
-  }, [searchParams]);
-
   const handleTabChange = useCallback((key: FilterTab) => {
     if (key === activeTab) return;
     setIsTransitioning(true);
@@ -177,7 +173,7 @@ function PozivniceContent() {
     <main style={{ background: "linear-gradient(160deg, #fdfaf5 0%, #fef9ee 60%, #fdf6e3 100%)", overflowX: "hidden", minHeight: "60vh" }}>
 
       {/* ══ HERO ══ */}
-      <section style={{ position: "relative", overflow: "hidden", borderBottom: "1px solid rgba(184,151,58,0.2)" }}>
+      <section style={{ position: "relative", overflow: "hidden", borderBottom: "1px solid rgba(160,121,33,0.28)" }}>
         {/* Background photo — fades on category change */}
         <div style={{ position: "absolute", inset: 0, transition: "opacity 0.7s ease", opacity: heroBg ? 1 : 0, background: "#130e08" }}>
           {heroBg && (
@@ -186,7 +182,7 @@ function PozivniceContent() {
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(19,14,8,0.3) 0%, rgba(19,14,8,0.7) 100%)" }} />
         </div>
 
-        <div style={{ position: "relative", zIndex: 1, padding: "5rem 1.5rem 4rem", transition: "color 0.4s" }}>
+        <div style={{ position: "relative", zIndex: 1, padding: "clamp(3.5rem, 11vw, 5rem) clamp(1rem, 4vw, 1.5rem) clamp(3rem, 9vw, 4rem)", transition: "color 0.4s" }}>
           <div className="flex flex-col items-center gap-4 text-center" style={{ maxWidth: "700px", margin: "0 auto" }}>
             <ScrollReveal>
               <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "1.8rem", color: "rgba(184,151,58,0.9)" }}>
@@ -194,7 +190,7 @@ function PozivniceContent() {
               </p>
             </ScrollReveal>
             <ScrollReveal delay={100}>
-              <h1 className="text-5xl sm:text-6xl font-light" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", color: heroBg ? "#fdfaf5" : "#2c2013", letterSpacing: "0.06em", lineHeight: 1.15, transition: "color 0.4s ease" }}>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", color: heroBg ? "#fdfaf5" : "#2c2013", letterSpacing: "0.06em", lineHeight: 1.15, transition: "color 0.4s ease" }}>
                 Nase <em style={{ fontStyle: "italic", color: "#b8973a" }}>Pozivnice</em>
               </h1>
             </ScrollReveal>
@@ -202,7 +198,7 @@ function PozivniceContent() {
               <div style={{ width: "50px", height: "1px", background: "rgba(184,151,58,0.5)" }} />
             </ScrollReveal>
             <ScrollReveal delay={300}>
-              <p className="text-xl sm:text-2xl italic font-light leading-relaxed" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", color: heroBg ? "rgba(253,250,245,0.8)" : "#5c4a2a", transition: "color 0.4s ease" }}>
+              <p className="text-lg sm:text-xl lg:text-2xl italic font-light leading-relaxed" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", color: heroBg ? "rgba(253,250,245,0.88)" : "#3c2c16", transition: "color 0.4s ease" }}>
                 Svaka je jedinstvena — bas poput posebnog trenutka koji obiljezava.
               </p>
             </ScrollReveal>
@@ -211,16 +207,18 @@ function PozivniceContent() {
       </section>
 
       {/* ══ FILTER + GALLERY ══ */}
-      <section style={{ padding: "3.5rem 1.5rem 6rem" }}>
+      <section style={{ padding: "clamp(3rem, 9vw, 3.5rem) clamp(1rem, 4vw, 1.5rem) clamp(4rem, 10vw, 6rem)" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
 
           {/* Filter tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-4" role="tablist">
+          <div className="section-shell mb-6" style={{ padding: "clamp(1rem, 3vw, 1.25rem)" }}>
+          <div className="tab-grid" role="tablist">
             {tabs.map(({ key, label }) => {
               const isActive = activeTab === key;
               return (
                 <button
                   key={key}
+                  className="tab-button"
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => handleTabChange(key)}
@@ -229,12 +227,13 @@ function PozivniceContent() {
                     fontSize: "0.9rem",
                     letterSpacing: "0.15em",
                     textTransform: "uppercase",
-                    padding: "9px 24px",
-                    border: isActive ? "1px solid #b8973a" : "1px solid rgba(184,151,58,0.35)",
-                    background: isActive ? "#b8973a" : "transparent",
-                    color: isActive ? "#fdfaf5" : "#7a6030",
+                    padding: "10px 14px",
+                    border: isActive ? "1px solid #a67a16" : "1px solid rgba(160,121,33,0.28)",
+                    background: isActive ? "linear-gradient(135deg, #b8973a, #9f7414)" : "rgba(255,252,246,0.88)",
+                    color: isActive ? "#fffaf0" : "#5b430f",
                     cursor: "pointer",
                     transition: "all 0.22s ease",
+                    width: "100%",
                   }}
                 >
                   {label}
@@ -242,9 +241,10 @@ function PozivniceContent() {
               );
             })}
           </div>
+          </div>
 
           {/* Count */}
-          <p className="text-center mb-8" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.95rem", letterSpacing: "0.12em", color: "rgba(92,74,42,0.6)", textTransform: "uppercase" }}>
+          <p className="text-center mb-8" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "clamp(0.85rem, 3.5vw, 0.95rem)", letterSpacing: "0.12em", color: "rgba(80,58,21,0.8)", textTransform: "uppercase" }}>
             {filtered.length} {filtered.length === 1 ? "dizajn" : "dizajna"}
           </p>
 
@@ -254,7 +254,7 @@ function PozivniceContent() {
             style={{ opacity: isTransitioning ? 0 : 1, transform: isTransitioning ? "translateY(8px)" : "translateY(0)", transition: "opacity 0.2s ease, transform 0.2s ease" }}
           >
             {filtered.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
                 {filtered.map((inv, i) => (
                   <InvitationCard key={inv.id} inv={inv} animDelay={i * 60} />
                 ))}
@@ -269,12 +269,12 @@ function PozivniceContent() {
           </div>
 
           {/* Bottom CTA */}
-          <ScrollReveal style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem", textAlign: "center", marginTop: "5rem", paddingTop: "3rem", borderTop: "1px solid rgba(184,151,58,0.2)" }}>
+          <ScrollReveal style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem", textAlign: "center", marginTop: "clamp(3.5rem, 10vw, 5rem)", paddingTop: "clamp(2.25rem, 8vw, 3rem)", borderTop: "1px solid rgba(184,151,58,0.2)" }}>
             <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "1.6rem", color: "rgba(184,151,58,0.8)" }}>Ne vidite sto trazite?</p>
-            <p className="text-xl italic" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", color: "#5c4a2a", maxWidth: "500px", lineHeight: 1.7 }}>
+            <p className="text-lg sm:text-xl italic" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", color: "#5c4a2a", maxWidth: "500px", lineHeight: 1.7 }}>
               Kreiramo i po narudzbi. Javite nam se sa vasim idejama — bez obaveza.
             </p>
-            <Link href="/o-nama#kontakt" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.95rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#fdfaf5", background: "#b8973a", padding: "13px 36px", textDecoration: "none", border: "1px solid #b8973a" }}>
+            <Link href="/kontakt" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.95rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#fdfaf5", background: "#b8973a", padding: "13px 28px", textDecoration: "none", border: "1px solid #b8973a", width: "100%", maxWidth: "320px", textAlign: "center" }}>
               Kontaktirajte Nas
             </Link>
           </ScrollReveal>

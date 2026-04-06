@@ -1397,9 +1397,9 @@ export default function Home() {
           <Animate delay={350} style={{ width: "100%", marginTop: "0.5rem" }}>
             <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
               {[
-                { label: "Email", value: "info@e-pozivnice.me", href: "mailto:info@e-pozivnice.me" },
+                { label: "Email", value: "epozivnice.me@gmail.com", href: "mailto:epozivnice.me@gmail.com" },
                 { label: "WhatsApp", value: "+382 69 000 000", href: "https://wa.me/38269000000" },
-                { label: "Instagram", value: "@epozivnice.me", href: "https://instagram.com/epozivnice.me" },
+                { label: "Instagram", value: "@e_pozivnice.me", href: "https://www.instagram.com/e_pozivnice.me/" },
               ].map(({ label, value, href }, idx) => (
                 <a
                   key={label}

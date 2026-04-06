@@ -1,11 +1,11 @@
 export default function Logo({ className, compact }: { className?: string; compact?: boolean }) {
   return (
-    <div className={`flex flex-col items-center ${className ?? ""}`}>
+    <div className={`logo-root flex flex-col items-center ${compact ? "logo-root-compact" : ""} ${className ?? ""}`}>
       {/* Envelope + sparkle icon */}
       <svg
         viewBox="0 0 220 155"
         xmlns="http://www.w3.org/2000/svg"
-        className={compact ? "w-20 h-auto" : "w-32 h-auto"}
+        className={`logo-icon ${compact ? "w-[clamp(3.4rem,13vw,4.5rem)] h-auto" : "w-32 h-auto"}`}
         aria-hidden="true"
       >
         {/* Envelope body */}
@@ -35,11 +35,11 @@ export default function Logo({ className, compact }: { className?: string; compa
       </svg>
 
       {/* Brand text */}
-      <div className="flex items-baseline mt-1">
+      <div className={`logo-wordmark flex items-baseline mt-1 ${compact ? "max-w-full" : ""}`}>
         <span
           style={{
             fontFamily: "var(--font-great-vibes), cursive",
-            fontSize: compact ? "1.6rem" : "2.4rem",
+            fontSize: compact ? "clamp(1.1rem, 4.8vw, 1.5rem)" : "2.4rem",
             color: "#b8973a",
             lineHeight: 1,
             letterSpacing: "0.01em",
@@ -50,7 +50,7 @@ export default function Logo({ className, compact }: { className?: string; compa
         <span
           style={{
             fontFamily: "var(--font-cormorant), Georgia, serif",
-            fontSize: compact ? "1.15rem" : "1.75rem",
+            fontSize: compact ? "clamp(0.9rem, 3.6vw, 1.05rem)" : "1.75rem",
             color: "#3a3530",
             lineHeight: 1,
             marginLeft: "1px",

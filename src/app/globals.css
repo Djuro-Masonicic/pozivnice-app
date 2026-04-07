@@ -329,7 +329,6 @@ body {
   border: 1px solid rgba(162, 117, 27, 0.26);
   background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(250,244,232,0.8));
   box-shadow: 0 24px 55px rgba(80, 54, 12, 0.07);
-  animation: section-breathe 7s ease-in-out infinite;
 }
 
 .section-shell::before {
@@ -345,8 +344,7 @@ body {
   position: absolute;
   inset: 0;
   background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.18) 34%, transparent 64%);
-  transform: translateX(-120%);
-  animation: section-sheen 7.5s ease-in-out infinite;
+  opacity: 0.55;
   pointer-events: none;
 }
 
@@ -853,16 +851,16 @@ body {
    SCROLL REVEAL
    ══════════════════════════════════════════ */
 
-.sr-ready.sr-hidden,
-.sr-ready.sr-visible {
-  transition: opacity 1.25s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 1.25s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
+.sr-hidden,
+.sr-visible {
+  transition: opacity 0.82s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.82s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .sr-hidden {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(18px);
+  will-change: opacity, transform;
 }
 
 .sr-visible {
@@ -952,12 +950,12 @@ body {
    ══════════════════════════════════════════ */
 
 @keyframes card-in {
-  0%   { opacity: 0; transform: translateY(28px) scale(0.95); filter: blur(8px); }
-  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  0%   { opacity: 0; transform: translateY(18px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .card-appear {
-  animation: card-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: card-in 0.36s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* ══════════════════════════════════════════
@@ -1083,5 +1081,58 @@ body {
   }
   .animate-logo-breathe {
     animation: logo-breathe 4s ease-in-out infinite;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar-backdrop,
+  .mobile-nav-backdrop {
+    backdrop-filter: none;
+  }
+
+  .section-shell {
+    box-shadow: 0 14px 30px rgba(80, 54, 12, 0.06);
+  }
+
+  .section-shell::after,
+  .logo-icon,
+  .animate-twinkle,
+  .animate-gold-pulse,
+  .animate-text-shimmer,
+  .animate-glow-pulse,
+  .animate-logo-breathe,
+  .mobile-wrap-path-glow,
+  .mobile-wrap-path-main,
+  .mobile-wrap-dot,
+  .scroll-tip-dot {
+    animation: none !important;
+  }
+
+  .inv-card,
+  .photo-card img,
+  .tab-button,
+  .nav-cta {
+    transition-duration: 0.2s !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .sr-hidden,
+  .sr-visible {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useRef, useState, type ElementType, type HTMLAttributes, type ReactNode } from "react";
 
@@ -17,45 +17,80 @@ export default function ScrollReveal({
   ...rest
 }: Props) {
   const ref = useRef<HTMLElement>(null);
-  const [isReady, setIsReady] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [status, setStatus] = useState<"idle" | "hidden" | "visible">(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return "visible";
+    }
+    return "idle";
+  });
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || status === "visible") return;
 
-    const frameId = window.requestAnimationFrame(() => {
-      setIsReady(true);
-    });
-    let timeoutId: number | null = null;
+    const frameIds: number[] = [];
+    const timeoutIds: number[] = [];
+
+    const scheduleStatus = (nextStatus: "hidden" | "visible", wait = 0) => {
+      if (wait > 0) {
+        const timeoutId = window.setTimeout(() => {
+          setStatus(nextStatus);
+        }, wait);
+        timeoutIds.push(timeoutId);
+        return;
+      }
+
+      const frameId = window.requestAnimationFrame(() => {
+        setStatus(nextStatus);
+      });
+      frameIds.push(frameId);
+    };
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      scheduleStatus("visible");
+      return () => {
+        frameIds.forEach(window.cancelAnimationFrame);
+        timeoutIds.forEach(window.clearTimeout);
+      };
+    }
+
+    const rect = el.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    const isAlreadyNearViewport = rect.top <= viewportHeight * 0.92 && rect.bottom >= -32;
+
+    if (isAlreadyNearViewport || !("IntersectionObserver" in window)) {
+      scheduleStatus("visible", delay);
+      return () => {
+        frameIds.forEach(window.cancelAnimationFrame);
+        timeoutIds.forEach(window.clearTimeout);
+      };
+    }
+
+    scheduleStatus("hidden");
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          timeoutId = window.setTimeout(() => {
-            setIsVisible(true);
-          }, delay);
+          scheduleStatus("visible", delay);
           observer.unobserve(el);
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.08, rootMargin: "0px 0px -8% 0px" }
     );
 
     observer.observe(el);
 
     return () => {
-      window.cancelAnimationFrame(frameId);
-      if (timeoutId !== null) {
-        window.clearTimeout(timeoutId);
-      }
+      frameIds.forEach(window.cancelAnimationFrame);
+      timeoutIds.forEach(window.clearTimeout);
       observer.disconnect();
     };
-  }, [delay]);
+  }, [delay, status]);
 
   return (
     <Tag
       ref={ref}
-      className={`${isReady ? "sr-ready" : ""} ${isVisible ? "sr-visible" : "sr-hidden"} ${className}`.trim()}
+      className={`${status === "hidden" ? "sr-hidden" : ""} ${status === "visible" ? "sr-visible" : ""} ${className}`.trim()}
       style={style}
       {...rest}
     >

@@ -444,18 +444,36 @@ function Animate({
   const [mobile, setMobile] = useState(false);
 
   useEffect(() => {
-    const check = () => setMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const syncMobile = () => setMobile(mediaQuery.matches);
+    syncMobile();
+    mediaQuery.addEventListener("change", syncMobile);
+    return () => mediaQuery.removeEventListener("change", syncMobile);
   }, []);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    const isAlreadyNearViewport = rect.top <= viewportHeight * 0.92 && rect.bottom >= -32;
+
+    if (isAlreadyNearViewport) {
+      const frameId = window.requestAnimationFrame(() => {
+        setVisible(true);
+      });
+      return () => window.cancelAnimationFrame(frameId);
+    }
+
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.1 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -8% 0px" }
     );
     obs.observe(el);
     return () => obs.disconnect();

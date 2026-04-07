@@ -9,12 +9,12 @@ import ScrollReveal from "@/components/ScrollReveal";
 
 type FilterTab = "sve" | Category;
 
+const categoryOrder: Category[] = ["vjencanje", "rodjendan", "matura", "korporativno"];
 const tabs: { key: FilterTab; label: string }[] = [
   { key: "sve", label: "Sve" },
-  { key: "vjencanje", label: "Vjencanja" },
-  { key: "rodjendan", label: "Rodjendani" },
-  { key: "matura", label: "Mature" },
-  { key: "korporativno", label: "Korporativno" },
+  ...categoryOrder
+    .filter((category) => invitations.some((inv) => inv.category === category))
+    .map((category) => ({ key: category, label: categoryLabels[category] })),
 ];
 
 const categoryPhotos: Record<Category, string> = {
@@ -47,7 +47,8 @@ function InvitationCard({
   priority?: boolean;
 }) {
   const { palette } = inv;
-  const photoSrc = invitationPhotos[inv.id];
+  const photoSrc = inv.previewImage ?? invitationPhotos[inv.id];
+  const hasLivePreview = Boolean(inv.previewImage && inv.demoHref);
 
   return (
     <article
@@ -79,11 +80,13 @@ function InvitationCard({
             fill
             priority={priority}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            style={{ objectFit: "cover", opacity: 0.65 }}
+            style={{ objectFit: "cover", opacity: hasLivePreview ? 1 : 0.65 }}
           />
         )}
 
-        <div style={{ position: "absolute", inset: 0, background: `${palette.bg}90`, mixBlendMode: "multiply" }} />
+        {!hasLivePreview && (
+          <div style={{ position: "absolute", inset: 0, background: `${palette.bg}90`, mixBlendMode: "multiply" }} />
+        )}
         <div style={{ position: "absolute", inset: "10px", border: `1px solid ${palette.border}`, pointerEvents: "none", zIndex: 2 }} />
 
         {[
@@ -95,21 +98,67 @@ function InvitationCard({
           <div key={i} style={{ position: "absolute", width: "6px", height: "6px", background: palette.primary, opacity: 0.8, zIndex: 3, ...pos }} />
         ))}
 
-        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "6px", zIndex: 4 }}>
-          <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "clamp(1.55rem, 6vw, 1.9rem)", color: palette.primary, lineHeight: 1, textShadow: `0 2px 16px ${palette.bg}`, textAlign: "center", padding: "0 0.75rem" }}>
-            {inv.title}
-          </p>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", width: "90px" }}>
-            <span style={{ flex: 1, height: "1px", background: `${palette.primary}70` }} />
-            <svg width="7" height="7" viewBox="0 0 8 8" fill={palette.primary} opacity={0.8}>
-              <path d="M4 0 L5 3 L8 4 L5 5 L4 8 L3 5 L0 4 L3 3 Z" />
-            </svg>
-            <span style={{ flex: 1, height: "1px", background: `${palette.primary}70` }} />
+        {hasLivePreview ? (
+          <>
+            {inv.demoHref && (
+              <Link
+                href={inv.demoHref}
+                aria-label={`Otvori ${inv.title}`}
+                style={{ position: "absolute", inset: 0, zIndex: 4 }}
+              />
+            )}
+            <div
+              style={{
+                position: "absolute",
+                inset: "auto 0 0 0",
+                zIndex: 5,
+                padding: "2.5rem 1rem 1rem",
+                background: "linear-gradient(to top, rgba(18,11,6,0.78), rgba(18,11,6,0.04))",
+                pointerEvents: "none",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-cormorant), Georgia, serif",
+                  fontSize: "1.15rem",
+                  color: "#fffaf0",
+                  letterSpacing: "0.04em",
+                  lineHeight: 1.15,
+                }}
+              >
+                {inv.title}
+              </p>
+              <p
+                style={{
+                  marginTop: "0.35rem",
+                  fontFamily: "var(--font-cormorant), Georgia, serif",
+                  fontSize: "0.72rem",
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,250,240,0.86)",
+                }}
+              >
+                {inv.subtitle}
+              </p>
+            </div>
+          </>
+        ) : (
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "6px", zIndex: 4 }}>
+            <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "clamp(1.55rem, 6vw, 1.9rem)", color: palette.primary, lineHeight: 1, textShadow: `0 2px 16px ${palette.bg}`, textAlign: "center", padding: "0 0.75rem" }}>
+              {inv.title}
+            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", width: "90px" }}>
+              <span style={{ flex: 1, height: "1px", background: `${palette.primary}70` }} />
+              <svg width="7" height="7" viewBox="0 0 8 8" fill={palette.primary} opacity={0.8}>
+                <path d="M4 0 L5 3 L8 4 L5 5 L4 8 L3 5 L0 4 L3 3 Z" />
+              </svg>
+              <span style={{ flex: 1, height: "1px", background: `${palette.primary}70` }} />
+            </div>
+            <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.75rem", letterSpacing: "0.18em", textTransform: "uppercase", color: palette.text, opacity: 0.65 }}>
+              {inv.subtitle}
+            </p>
           </div>
-          <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.75rem", letterSpacing: "0.18em", textTransform: "uppercase", color: palette.text, opacity: 0.65 }}>
-            {inv.subtitle}
-          </p>
-        </div>
+        )}
 
         <span style={{ position: "absolute", top: "14px", right: "20px", fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.68rem", letterSpacing: "0.15em", color: palette.primary, opacity: 0.75, zIndex: 5 }}>
           {inv.year}
@@ -138,9 +187,31 @@ function InvitationCard({
           <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "1.15rem", color: "#91670e", letterSpacing: "0.05em" }}>
             {inv.price}
           </span>
-          <Link href="/kontakt" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.8rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#fdfaf5", background: "#b8973a", padding: "10px 18px", textDecoration: "none", border: "1px solid #b8973a", textAlign: "center", width: "100%", maxWidth: "190px" }}>
-            Narucite
-          </Link>
+          <div className="flex w-full gap-2 sm:w-auto">
+            {inv.demoHref && (
+              <Link
+                href={inv.demoHref}
+                style={{
+                  fontFamily: "var(--font-cormorant), Georgia, serif",
+                  fontSize: "0.8rem",
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "#8f6712",
+                  background: "rgba(255,252,246,0.96)",
+                  padding: "10px 18px",
+                  textDecoration: "none",
+                  border: "1px solid rgba(160,121,33,0.36)",
+                  textAlign: "center",
+                  width: "100%",
+                }}
+              >
+                Pogledajte
+              </Link>
+            )}
+            <Link href="/kontakt" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.8rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#fdfaf5", background: "#b8973a", padding: "10px 18px", textDecoration: "none", border: "1px solid #b8973a", textAlign: "center", width: "100%" }}>
+              Narucite
+            </Link>
+          </div>
         </div>
       </div>
     </article>

@@ -723,6 +723,11 @@ export default function DanceInvite() {
       return;
     }
 
+    const countdownDays = countdownValues.days;
+    const countdownHours = countdownValues.hours;
+    const countdownMinutes = countdownValues.minutes;
+    const countdownSeconds = countdownValues.seconds;
+
     let musicPlaying = false;
     let countdownIntervalId: number | null = null;
 
@@ -781,10 +786,10 @@ export default function DanceInvite() {
       const distance = WEDDING_DATE.getTime() - now.getTime();
 
       if (distance <= 0) {
-        countdownValues.days.textContent = "00";
-        countdownValues.hours.textContent = "00";
-        countdownValues.minutes.textContent = "00";
-        countdownValues.seconds.textContent = "00";
+        countdownDays.textContent = "00";
+        countdownHours.textContent = "00";
+        countdownMinutes.textContent = "00";
+        countdownSeconds.textContent = "00";
         countdownMessage.textContent = "Naš poseban dan je stigao.";
 
         if (countdownIntervalId !== null) {
@@ -800,10 +805,10 @@ export default function DanceInvite() {
       const minutes = Math.floor((distance / (1000 * 60)) % 60);
       const seconds = Math.floor((distance / 1000) % 60);
 
-      countdownValues.days.textContent = pad(days);
-      countdownValues.hours.textContent = pad(hours);
-      countdownValues.minutes.textContent = pad(minutes);
-      countdownValues.seconds.textContent = pad(seconds);
+      countdownDays.textContent = pad(days);
+      countdownHours.textContent = pad(hours);
+      countdownMinutes.textContent = pad(minutes);
+      countdownSeconds.textContent = pad(seconds);
       countdownMessage.textContent = "";
     };
 

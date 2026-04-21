@@ -22,6 +22,7 @@ const INVITE_STYLES = String.raw`
   .page-wrap {
     min-height: 100vh;
     min-height: 100svh;
+    min-height: 100lvh;
     padding: 16px;
     background: #f7f4ee;
     color: #4e4031;

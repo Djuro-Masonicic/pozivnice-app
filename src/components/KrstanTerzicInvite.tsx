@@ -19,31 +19,47 @@ const INVITE_STYLES = String.raw`
 
   .invite-page {
     min-height: 100vh;
+    min-height: 100svh;
+    position: relative;
     overflow-x: hidden;
     color: #000000;
     font-family: "Quicksand", sans-serif;
     text-align: center;
+    background: #f6f3ea;
   }
 
   .bg-fixed {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
     z-index: -3;
     background: url("/krstan-terzic/IMG_5224.jpeg") center/cover no-repeat;
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .bg-overlay {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
     z-index: -2;
     background: rgba(255, 255, 255, 0.65);
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .balloons {
     position: fixed;
     top: -150px;
     width: 100%;
-    height: 100%;
+    height: calc(100vh + 150px);
+    height: calc(100lvh + 150px);
     pointer-events: none;
     z-index: -1;
     overflow: hidden;
@@ -68,6 +84,7 @@ const INVITE_STYLES = String.raw`
 
   .overlay {
     min-height: 100vh;
+    min-height: 100svh;
     padding: 70px 20px;
   }
 

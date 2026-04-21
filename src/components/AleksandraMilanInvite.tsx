@@ -25,11 +25,13 @@ const INVITE_STYLES = String.raw`
 
   .invite-page {
     min-height: 100vh;
+    min-height: 100svh;
     margin: 0;
     font-family: "Nunito Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text);
     background: radial-gradient(circle at top, var(--bg2), var(--bg1) 60%);
     font-weight: 300;
+    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }

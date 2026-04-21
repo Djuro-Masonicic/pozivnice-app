@@ -29,16 +29,28 @@ const INVITE_STYLES = String.raw`
 
   .bg {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
     background: url("/minnie/minnie.jpg") center/cover no-repeat;
     z-index: -2;
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .bg-overlay {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
     background: rgba(255, 255, 255, 0.55);
     z-index: -1;
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .subject-img {
@@ -250,7 +262,12 @@ const INVITE_STYLES = String.raw`
   .balloons,
   .effects {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
+    overflow: hidden;
     pointer-events: none;
   }
 
@@ -423,10 +440,12 @@ const INVITE_STYLES = String.raw`
       bottom: 16px;
       left: 50%;
       width: min(calc(100% - 32px), 600px);
+      height: auto;
       transform: translateX(-50%);
       border-radius: 30px;
       box-shadow: 0 28px 80px rgba(92, 76, 50, 0.14);
       z-index: 0;
+      will-change: auto;
     }
 
     .bg-overlay {
@@ -435,12 +454,14 @@ const INVITE_STYLES = String.raw`
       bottom: 16px;
       left: 50%;
       width: min(calc(100% - 32px), 600px);
+      height: auto;
       transform: translateX(-50%);
       border-radius: 30px;
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.44), rgba(255, 251, 252, 0.6)),
         radial-gradient(circle at center, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.34));
       z-index: 1;
+      will-change: auto;
     }
 
     .subject-img {

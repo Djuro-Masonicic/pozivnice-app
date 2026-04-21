@@ -393,22 +393,36 @@ const INVITE_STYLES = String.raw`
 
     .bg-fixed {
       position: fixed;
-      inset: 0;
-      width: auto;
+      top: 0;
+      left: 0;
+      right: auto;
+      bottom: auto;
+      width: 100%;
+      height: 100vh;
+      height: 100lvh;
       transform: none;
+      background-position: center center;
+      background-size: cover;
       border-radius: 0;
       box-shadow: none;
       z-index: -2;
+      will-change: transform;
     }
 
     .bg-overlay {
       position: fixed;
-      inset: 0;
-      width: auto;
+      top: 0;
+      left: 0;
+      right: auto;
+      bottom: auto;
+      width: 100%;
+      height: 100vh;
+      height: 100lvh;
       transform: none;
       border-radius: 0;
       background: transparent;
       z-index: -1;
+      will-change: transform;
     }
 
     .overlay {

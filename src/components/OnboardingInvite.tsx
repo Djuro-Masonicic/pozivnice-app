@@ -36,7 +36,7 @@ const INVITE_STYLES = String.raw`
   .invite-root::before,
   .invite-root::after {
     content: "";
-    position: fixed;
+    position: absolute;
     border-radius: 50%;
     pointer-events: none;
     filter: blur(80px);
@@ -567,7 +567,7 @@ const INVITE_STYLES = String.raw`
   }
 
   .petal {
-    position: fixed;
+    position: absolute;
     border-radius: 60% 0 60% 0;
     background: rgba(210, 150, 160, 0.4);
     pointer-events: none;
@@ -582,7 +582,7 @@ const INVITE_STYLES = String.raw`
 
     100% {
       opacity: 0;
-      transform: translateY(110vh) rotate(600deg);
+      transform: translateY(110lvh) rotate(600deg);
     }
   }
 

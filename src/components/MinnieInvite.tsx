@@ -650,6 +650,11 @@ export default function MinnieInvite() {
       return;
     }
 
+    const countdownDays = countdownValues.days;
+    const countdownHours = countdownValues.hours;
+    const countdownMinutes = countdownValues.minutes;
+    const countdownSeconds = countdownValues.seconds;
+
     const timeouts = new Set<number>();
 
     const addTimeout = (callback: () => void, delay: number) => {
@@ -775,10 +780,10 @@ export default function MinnieInvite() {
       const minutes = Math.floor((distance % 3600000) / 60000);
       const seconds = Math.floor((distance % 60000) / 1000);
 
-      pulseValue(countdownValues.days, pad(days));
-      pulseValue(countdownValues.hours, pad(hours));
-      pulseValue(countdownValues.minutes, pad(minutes));
-      pulseValue(countdownValues.seconds, pad(seconds));
+      pulseValue(countdownDays, pad(days));
+      pulseValue(countdownHours, pad(hours));
+      pulseValue(countdownMinutes, pad(minutes));
+      pulseValue(countdownSeconds, pad(seconds));
     };
 
     let lastSparkleAt = 0;

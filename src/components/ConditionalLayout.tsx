@@ -12,6 +12,7 @@ export function ConditionalNavbar() {
     pathname === "/GoluboviPozivnica" ||
     pathname === "/DancePozivnica" ||
     pathname === "/KrstanTerzicPozivnica" ||
+    pathname === "/MinniePozivnica" ||
     pathname === "/onboarding"
   ) return null;
   return <NavbarResponsive />;
@@ -26,6 +27,7 @@ export function ConditionalFooter() {
     pathname === "/GoluboviPozivnica" ||
     pathname === "/DancePozivnica" ||
     pathname === "/KrstanTerzicPozivnica" ||
+    pathname === "/MinniePozivnica" ||
     pathname === "/onboarding"
   ) return null;
   return <Footer />;

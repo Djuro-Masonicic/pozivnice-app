@@ -35,7 +35,7 @@ export const invitations: Invitation[] = [
       text: "#4a2e1a",
       border: "rgba(176,125,74,0.45)",
     },
-    price: "Po dogovoru",
+    price: "30 €",
     badges: ["Live demo", "Glass card"],
     description:
       "Romantic multi-slide wedding invitation with countdown, quote, location, QR code, and RSVP flow.",
@@ -46,7 +46,7 @@ export const invitations: Invitation[] = [
     title: "Anja & Stefan",
     subtitle: "Music invitation",
     category: "vjencanje",
-    previewImage: "/dance/background.png",
+    previewImage: "/previews/DanceInvitationPreview.png",
     demoHref: "/DancePozivnica",
     palette: {
       bg: "#fdfaf5",
@@ -55,7 +55,7 @@ export const invitations: Invitation[] = [
       text: "#4e4031",
       border: "rgba(119,98,66,0.38)",
     },
-    price: "Po dogovoru",
+    price: "30 €",
     badges: ["Live demo", "Music"],
     description:
       "Elegant floral invitation with background music, countdown, map link, and RSVP modal.",
@@ -75,7 +75,7 @@ export const invitations: Invitation[] = [
       text: "#333333",
       border: "rgba(196,149,99,0.42)",
     },
-    price: "Po dogovoru",
+    price: "30 €",
     badges: ["Live demo", "Photo story"],
     description:
       "Soft editorial wedding invitation built around milestone photos, animated calendar, and a refined map section.",
@@ -86,7 +86,7 @@ export const invitations: Invitation[] = [
     title: "Katarina & Vukasin",
     subtitle: "Floral dove frame",
     category: "vjencanje",
-    previewImage: "/golubovi/golubovi.jpg",
+    previewImage: "/previews/GoluboviPreview.png",
     demoHref: "/GoluboviPozivnica",
     palette: {
       bg: "#fbfbf9",
@@ -95,10 +95,30 @@ export const invitations: Invitation[] = [
       text: "#333333",
       border: "rgba(196,149,99,0.4)",
     },
-    price: "Po dogovoru",
+    price: "30 €",
     badges: ["Live demo", "Classic"],
     description:
       "Classic floral wedding invitation with doves, gold accents, countdown, and polished map section.",
+    year: 2026,
+  },
+  {
+    id: "anja-minnie",
+    title: "Anja",
+    subtitle: "1. rodjendan",
+    category: "rodjendan",
+    previewImage: "/previews/minnie-card.png",
+    demoHref: "/MinniePozivnica",
+    palette: {
+      bg: "#fff6fb",
+      primary: "#ff4fa3",
+      secondary: "#ff9aa2",
+      text: "#333333",
+      border: "rgba(255,79,163,0.35)",
+    },
+    price: "30 €",
+    badges: ["Live demo", "Birthday"],
+    description:
+      "Sweet Minnie-inspired birthday invitation with confetti, poppable balloons, sparkles, countdown, and map.",
     year: 2026,
   },
   {
@@ -106,7 +126,7 @@ export const invitations: Invitation[] = [
     title: "Krstan",
     subtitle: "3. rodjendan",
     category: "rodjendan",
-    previewImage: "/krstan-terzic/IMG_5224.jpeg",
+    previewImage: "/previews/KrstanPreview.png",
     demoHref: "/KrstanTerzicPozivnica",
     palette: {
       bg: "#f6fbff",
@@ -115,7 +135,7 @@ export const invitations: Invitation[] = [
       text: "#263847",
       border: "rgba(111,143,166,0.4)",
     },
-    price: "Po dogovoru",
+    price: "30 €",
     badges: ["Live demo", "Kids"],
     description:
       "Playful birthday invitation with floating balloons, soft illustration art, and a live countdown.",

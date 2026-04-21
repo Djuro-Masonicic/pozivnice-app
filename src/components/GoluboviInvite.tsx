@@ -22,45 +22,73 @@ const INVITE_STYLES = String.raw`
 
   .invite-page {
     min-height: 100vh;
+    min-height: 100svh;
+    padding: 16px;
     font-family: "Montserrat", sans-serif;
     color: var(--text);
     text-align: center;
     overflow-x: hidden;
     position: relative;
+    background: #f7f4ee;
   }
 
   .bg-fixed {
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    left: 50%;
+    width: min(calc(100% - 32px), 600px);
+    transform: translateX(-50%);
     background: url("/golubovi/golubovi.jpg") no-repeat center center;
     background-size: cover;
-    z-index: -2;
+    border-radius: 30px;
+    box-shadow: 0 28px 80px rgba(92, 76, 50, 0.14);
+    z-index: 0;
   }
 
   .bg-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    left: 50%;
+    width: min(calc(100% - 32px), 600px);
+    transform: translateX(-50%);
+    border-radius: 30px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(255, 251, 244, 0.72)),
+      radial-gradient(circle at center, rgba(255, 253, 248, 0.12), rgba(255, 253, 248, 0.3));
+    z-index: 1;
   }
 
   .overlay {
-    min-height: 100vh;
-    padding: 27vh 2vh;
+    position: relative;
+    z-index: 2;
+    width: min(100%, 600px);
+    min-height: 900px;
+    margin: 0 auto;
+    padding: 56px 42px 42px;
+    overflow-x: clip;
   }
 
   .lead {
     opacity: 0;
     animation: fadeIn 2s ease forwards;
     animation-delay: 0.5s;
-    margin-top: 2vh;
-    margin-left: 5vh;
+    margin: 0 auto 20px;
+    max-width: 400px;
+    color: rgba(51, 51, 51, 0.82);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.15rem;
+    line-height: 1.55;
   }
 
   h1 {
     font-family: "Playfair Display", serif;
     font-style: italic;
-    font-size: 52px;
-    letter-spacing: 4px;
+    font-size: clamp(2.7rem, 10vw, 4.4rem);
+    letter-spacing: 0.05em;
+    line-height: 1.12;
+    margin: 0;
     opacity: 0;
     transform: translateY(30px);
     animation: titleFade 1.5s ease forwards;
@@ -77,7 +105,7 @@ const INVITE_STYLES = String.raw`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 1vh;
+    margin-top: 24px;
     opacity: 0;
     animation: fadeUp 1.5s ease forwards;
     animation-delay: 1.3s;
@@ -85,7 +113,7 @@ const INVITE_STYLES = String.raw`
   }
 
   .date-text {
-    margin-top: 20vh;
+    margin-top: 24px;
     font-size: 18px;
     line-height: 1.6;
     opacity: 0;
@@ -95,8 +123,10 @@ const INVITE_STYLES = String.raw`
   }
 
   .countdown {
-    font-size: 30px;
-    margin-top: 40px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(1.35rem, 4vw, 1.9rem);
+    margin-top: 28px;
+    color: #5d4a35;
     opacity: 0;
     transform: translateY(30px);
     animation: fadeUp 1.5s ease forwards;
@@ -106,7 +136,7 @@ const INVITE_STYLES = String.raw`
   .invite-text {
     font-size: 18px;
     line-height: 1.9;
-    margin-top: 40px;
+    margin-top: 30px;
     opacity: 0;
     transform: translateY(30px);
     animation: fadeUp 1.5s ease forwards;
@@ -114,7 +144,7 @@ const INVITE_STYLES = String.raw`
   }
 
   .map-section {
-    margin-top: 9vh;
+    margin-top: 56px;
     opacity: 0;
     transform: translateY(30px);
     animation: fadeUp 1.5s ease forwards;
@@ -130,7 +160,7 @@ const INVITE_STYLES = String.raw`
   .map-wrapper {
     position: relative;
     display: block;
-    max-width: 700px;
+    max-width: 100%;
     margin: 0 auto;
     text-decoration: none;
   }
@@ -162,7 +192,7 @@ const INVITE_STYLES = String.raw`
     letter-spacing: 1px;
     font-size: 14px;
     color: #000000;
-    margin-top: 12vh;
+    margin-top: 0;
   }
 
   .map-wrapper:hover .map-overlay {
@@ -186,9 +216,9 @@ const INVITE_STYLES = String.raw`
 
   .calendar-stack {
     position: relative;
-    width: 53vw;
-    height: 22vh;
-    margin: 40px auto;
+    width: min(100%, 360px);
+    height: 230px;
+    margin: 0 auto;
     perspective: 1000px;
     transform-style: preserve-3d;
   }
@@ -246,7 +276,7 @@ const INVITE_STYLES = String.raw`
     text-align: center;
     font-family: "Playfair Display", serif;
     letter-spacing: 1px;
-    font-size: 30px;
+    font-size: clamp(1.25rem, 4vw, 1.85rem);
     font-weight: 400;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     box-shadow:
@@ -256,7 +286,7 @@ const INVITE_STYLES = String.raw`
 
   .page-day {
     font-family: "Cormorant Garamond", serif;
-    font-size: 60px;
+    font-size: clamp(3.1rem, 11vw, 4rem);
     color: #1a1a1a;
     font-weight: 400;
     letter-spacing: -2px;
@@ -265,7 +295,7 @@ const INVITE_STYLES = String.raw`
       0 1px 2px rgba(212, 165, 116, 0.15);
     line-height: 1;
     font-variant-numeric: tabular-nums;
-    margin-top: 7vh;
+    margin-top: 58px;
     text-align: center;
   }
 
@@ -356,18 +386,96 @@ const INVITE_STYLES = String.raw`
   }
 
   @media (max-width: 600px) {
+    .invite-page {
+      padding: 0;
+      background: transparent;
+    }
+
+    .bg-fixed {
+      position: fixed;
+      inset: 0;
+      width: auto;
+      transform: none;
+      border-radius: 0;
+      box-shadow: none;
+      z-index: -2;
+    }
+
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      width: auto;
+      transform: none;
+      border-radius: 0;
+      background: transparent;
+      z-index: -1;
+    }
+
+    .overlay {
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: 27vh 2vh;
+      overflow-x: hidden;
+    }
+
+    .lead {
+      max-width: none;
+      margin-top: 2vh;
+      margin-left: 5vh;
+      margin-bottom: 0;
+      color: inherit;
+      font-family: "Montserrat", sans-serif;
+      font-size: inherit;
+      line-height: normal;
+    }
+
     h1 {
       font-size: 4vh;
       margin-top: 5vh;
     }
 
+    .date-block {
+      margin-top: 1vh;
+    }
+
+    .date-text {
+      margin-top: 20vh;
+    }
+
+    .invite-text {
+      margin-top: 40px;
+    }
+
+    .map-section {
+      margin-top: 9vh;
+    }
+
     .countdown {
       font-size: 22px;
+      margin-top: 40px;
     }
 
     .calendar-stack {
       width: 53vw;
       height: 22vh;
+    }
+
+    .map-wrapper iframe {
+      height: 350px;
+    }
+
+    .map-overlay span {
+      margin-top: 12vh;
+    }
+
+    .page-header {
+      font-size: 30px;
+    }
+
+    .page-day {
+      font-size: 60px;
+      margin-top: 7vh;
     }
   }
 `;

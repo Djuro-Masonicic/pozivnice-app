@@ -10,6 +10,8 @@ const INVITE_STYLES = String.raw`
     all: initial;
     display: block;
     width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   :host,
@@ -19,26 +21,36 @@ const INVITE_STYLES = String.raw`
 
   .page-wrap {
     min-height: 100vh;
+    min-height: 100svh;
     padding: 16px;
     background: #f7f4ee;
     color: #4e4031;
     font-family: "Cormorant Garamond", serif;
+    overflow-x: hidden;
   }
 
   .page {
     width: min(100%, 760px);
+    max-width: 100%;
     margin: 0 auto;
+    overflow-x: clip;
   }
 
   .invitation {
+    --invite-bg-height: 900px;
     position: relative;
     width: min(100%, 600px);
     min-height: 900px;
     margin: 0 auto;
     padding: 56px 42px 42px;
     overflow: hidden;
+    overflow-x: clip;
     border-radius: 30px;
-    background: url("/dance/background.png") center/cover no-repeat;
+    background-color: #f7f4ee;
+    background-image: url("/dance/background.png");
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: auto var(--invite-bg-height);
     box-shadow: 0 28px 80px rgba(92, 76, 50, 0.14);
     isolation: isolate;
   }
@@ -79,7 +91,7 @@ const INVITE_STYLES = String.raw`
   }
 
   .names {
-    margin: 7vh 0 0;
+    margin: clamp(48px, 7svh, 70px) 0 0;
     font-family: "Allura", cursive;
     font-size: clamp(3rem, 13vw, 5.6rem);
     font-weight: 400;

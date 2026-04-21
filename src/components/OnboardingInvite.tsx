@@ -23,10 +23,12 @@ const INVITE_STYLES = String.raw`
   .invite-root {
     position: relative;
     min-height: 100vh;
+    min-height: 100svh;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 18px;
     font-family: "Raleway", sans-serif;
     background: linear-gradient(135deg, #f9ede0 0%, #f0d9c5 40%, #e8c9b0 100%);
   }
@@ -60,7 +62,8 @@ const INVITE_STYLES = String.raw`
   .card-shell {
     position: relative;
     width: min(480px, 94vw);
-    height: min(680px, 92vh);
+    height: min(700px, calc(100svh - 36px));
+    min-height: 560px;
     perspective: 1200px;
     z-index: 2;
   }
@@ -71,7 +74,8 @@ const INVITE_STYLES = String.raw`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 18px;
     padding: 44px 36px 32px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.7);
@@ -115,12 +119,18 @@ const INVITE_STYLES = String.raw`
 
   .slide-top {
     display: flex;
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 0;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
     gap: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2px 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(176, 125, 74, 0.32) transparent;
   }
 
   .badge {
@@ -220,7 +230,7 @@ const INVITE_STYLES = String.raw`
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 14px 18px;
+    padding: 12px 16px;
     border: 1px solid rgba(212, 168, 102, 0.25);
     border-radius: 14px;
     background: rgba(255, 248, 240, 0.7);
@@ -440,11 +450,34 @@ const INVITE_STYLES = String.raw`
 
   .card-bottom {
     display: flex;
-    flex-shrink: 0;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin-top: 24px;
+    margin-top: auto;
+  }
+
+  #slide-2 .slide-top {
+    justify-content: flex-start;
+  }
+
+  #slide-2 .icon-circle {
+    width: 62px;
+    height: 62px;
+    margin-bottom: 14px;
+    font-size: 26px;
+  }
+
+  #slide-2 .slide-h2 {
+    margin-bottom: 8px;
+  }
+
+  #slide-2 .slide-h1 {
+    font-size: clamp(34px, 8vw, 48px);
+  }
+
+  #slide-2 .deco-line {
+    margin: 10px 0;
   }
 
   .nav-btn {
@@ -566,7 +599,8 @@ const INVITE_STYLES = String.raw`
 
   @media (max-height: 600px) {
     .card-shell {
-      height: 98vh;
+      height: calc(100svh - 20px);
+      min-height: 0;
     }
 
     .card {

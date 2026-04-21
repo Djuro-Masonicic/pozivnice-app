@@ -335,7 +335,7 @@ const INVITE_STYLES = String.raw`
   }
 
   .wedding-highlight::before {
-    content: "?";
+    content: "❤";
     display: block;
     font-size: 2rem;
     margin-bottom: 8px;

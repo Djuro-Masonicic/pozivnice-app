@@ -183,15 +183,18 @@ function InvitationCard({
           {inv.description}
         </p>
         <div style={{ height: "1px", background: "rgba(160,121,33,0.24)", margin: "4px 0" }} />
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3">
           <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "1.15rem", color: "#91670e", letterSpacing: "0.05em" }}>
             {inv.price}
           </span>
-          <div className="flex w-full gap-2 sm:w-auto">
+          <div className="flex w-full flex-col gap-2 min-[420px]:flex-row">
             {inv.demoHref && (
               <Link
                 href={inv.demoHref}
                 style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   fontFamily: "var(--font-cormorant), Georgia, serif",
                   fontSize: "0.8rem",
                   letterSpacing: "0.14em",
@@ -203,12 +206,14 @@ function InvitationCard({
                   border: "1px solid rgba(160,121,33,0.36)",
                   textAlign: "center",
                   width: "100%",
+                  minHeight: "42px",
+                  whiteSpace: "nowrap",
                 }}
               >
                 Pogledajte
               </Link>
             )}
-            <Link href="/kontakt" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.8rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#fdfaf5", background: "#b8973a", padding: "10px 18px", textDecoration: "none", border: "1px solid #b8973a", textAlign: "center", width: "100%" }}>
+            <Link href="/kontakt" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.8rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#fdfaf5", background: "#b8973a", padding: "10px 18px", textDecoration: "none", border: "1px solid #b8973a", textAlign: "center", width: "100%", minHeight: "42px", whiteSpace: "nowrap" }}>
               Narucite
             </Link>
           </div>

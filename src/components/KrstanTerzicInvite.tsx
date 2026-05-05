@@ -270,9 +270,9 @@ const INVITE_MARKUP = String.raw`
         <div class="map-section reveal">
           <h2 class="map-title">Lokacija</h2>
           <iframe
-            src="https://www.google.com/maps?q=Event%20centar%20Tasa%20Pljevlja&output=embed"
+            src="https://www.google.com/maps?q=Event%20centar%20Ta%C5%A1a%20Pljevlja&output=embed"
             loading="lazy"
-            title="Event centar Tasa mapa"
+            title="Event centar Taša mapa"
           ></iframe>
         </div>
 

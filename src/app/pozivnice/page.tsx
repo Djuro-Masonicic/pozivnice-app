@@ -165,7 +165,7 @@ function InvitationCard({
         </span>
       </div>
 
-      <div className="flex flex-col gap-3 p-4 sm:p-5">
+      <div className="flex flex-col gap-3 p-4 sm:p-5 grow">
         <div className="flex flex-wrap items-center gap-2">
           <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.75rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "#8f6712", border: "1px solid rgba(160,121,33,0.52)", padding: "2px 10px", background: "rgba(184,151,58,0.08)" }}>
             {categoryLabels[inv.category]}
@@ -179,11 +179,14 @@ function InvitationCard({
         <h2 style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "1.35rem", fontWeight: 300, color: "#2c2013", letterSpacing: "0.04em", lineHeight: 1.2 }}>
           {inv.title}
         </h2>
+        <div className="grow">
+
         <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "1rem", color: "#352716", lineHeight: 1.65, fontStyle: "italic" }}>
           {inv.description}
         </p>
+        </div>
         <div style={{ height: "1px", background: "rgba(160,121,33,0.24)", margin: "4px 0" }} />
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3  justify-end">
           <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "1.15rem", color: "#91670e", letterSpacing: "0.05em" }}>
             {inv.price}
           </span>
@@ -214,7 +217,7 @@ function InvitationCard({
               </Link>
             )}
             <Link href="/kontakt" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.8rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#fdfaf5", background: "#b8973a", padding: "10px 18px", textDecoration: "none", border: "1px solid #b8973a", textAlign: "center", width: "100%", minHeight: "42px", whiteSpace: "nowrap" }}>
-              Narucite
+              Naručite
             </Link>
           </div>
         </div>
@@ -266,12 +269,12 @@ function PozivniceContent() {
           <div className="flex flex-col items-center gap-4 text-center" style={{ maxWidth: "700px", margin: "0 auto" }}>
             <ScrollReveal>
               <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "1.8rem", color: "rgba(184,151,58,0.9)" }}>
-                Nasa kolekcija
+                Naša kolekcija
               </p>
             </ScrollReveal>
             <ScrollReveal delay={80}>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", color: heroBg ? "#fdfaf5" : "#2c2013", letterSpacing: "0.06em", lineHeight: 1.15, transition: "color 0.3s ease" }}>
-                Nase <em style={{ fontStyle: "italic", color: "#b8973a" }}>Pozivnice</em>
+                Naše <em style={{ fontStyle: "italic", color: "#b8973a" }}>pozivnice</em>
               </h1>
             </ScrollReveal>
             <ScrollReveal delay={140}>
@@ -279,7 +282,7 @@ function PozivniceContent() {
             </ScrollReveal>
             <ScrollReveal delay={200}>
               <p className="text-lg sm:text-xl lg:text-2xl italic font-light leading-relaxed" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", color: heroBg ? "rgba(253,250,245,0.88)" : "#3c2c16", transition: "color 0.3s ease" }}>
-                Svaka je jedinstvena - bas poput posebnog trenutka koji obiljezava.
+                Svaka je jedinstvena, baš poput posebnog trenutka koji obilježava.
               </p>
             </ScrollReveal>
           </div>
@@ -347,12 +350,12 @@ function PozivniceContent() {
           </div>
 
           <ScrollReveal style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem", textAlign: "center", marginTop: "clamp(3.5rem, 10vw, 5rem)", paddingTop: "clamp(2.25rem, 8vw, 3rem)", borderTop: "1px solid rgba(184,151,58,0.2)" }}>
-            <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "1.6rem", color: "rgba(184,151,58,0.8)" }}>Ne vidite sto trazite?</p>
+            <p style={{ fontFamily: "var(--font-great-vibes), cursive", fontSize: "1.6rem", color: "rgba(184,151,58,0.8)" }}>Ne vidite što tražite?</p>
             <p className="text-lg sm:text-xl italic" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", color: "#5c4a2a", maxWidth: "500px", lineHeight: 1.7 }}>
-              Kreiramo i po narudzbi. Javite nam se sa vasim idejama - bez obaveza.
+              Kreiramo i po narudžbi. Javite nam se sa vašim idejama, bez obaveza.
             </p>
             <Link href="/kontakt" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "0.95rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#fdfaf5", background: "#b8973a", padding: "13px 28px", textDecoration: "none", border: "1px solid #b8973a", width: "100%", maxWidth: "320px", textAlign: "center" }}>
-              Kontaktirajte Nas
+              Kontaktirajte nas
             </Link>
           </ScrollReveal>
         </div>

@@ -137,7 +137,7 @@ export default function NavbarResponsive() {
           <button
             className="grid place-items-center md:hidden"
             onClick={toggleMenu}
-            aria-label="Toggle navigation"
+            aria-label={menuOpen ? "Zatvori navigaciju" : "Otvori navigaciju"}
             aria-expanded={menuOpen}
             style={{
               width: "44px",
@@ -181,7 +181,7 @@ export default function NavbarResponsive() {
         <>
           <button
             type="button"
-            aria-label="Close navigation menu"
+            aria-label="Zatvori navigacioni meni"
             className={menuOpen ? "navbar-backdrop navbar-backdrop-open" : "navbar-backdrop navbar-backdrop-close"}
             onClick={closeMenu}
           />

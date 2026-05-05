@@ -251,7 +251,7 @@ export default function PocetnaPage() {
             {featuredInvitations.map((inv, index) => (
               <ScrollReveal key={inv.id} delay={index * 120}>
                 <article
-                  className="section-shell"
+                  className="section-shell flex flex-col"
                   style={{
                     height: "100%",
                     padding: "1.15rem",
@@ -332,16 +332,19 @@ export default function PocetnaPage() {
                     />
                   </div>
 
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col grow gap-3">
+                   
+                   <div className="grow">
                     <p
                       style={{
                         color: "#4e3820",
                         lineHeight: 1.7,
                         fontSize: "0.98rem",
                       }}
-                    >
+                      >
                       {inv.description}
                     </p>
+                      </div> 
                     <div className="flex items-center justify-between gap-3">
                       <span
                         style={{

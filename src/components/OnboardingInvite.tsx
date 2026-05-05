@@ -619,7 +619,7 @@ const INVITE_MARKUP = `
           <div class="slide-amp">&amp;</div>
           <div class="slide-name">Marko</div>
           <div class="deco-line">&#10022;</div>
-          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3.5vw,19px);letter-spacing:3px;text-transform:uppercase;color:#9a6840;text-align:center;margin-top:4px;">22. august 2026.</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3.5vw,19px);letter-spacing:3px;text-transform:uppercase;color:#9a6840;text-align:center;margin-top:4px;">22. avgust 2026.</p>
           <p style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#b89068;margin-top:6px;">Beograd, Srbija</p>
         </div>
         <div class="card-bottom">
@@ -641,7 +641,7 @@ const INVITE_MARKUP = `
             <div class="cd-box"><div class="cd-num" id="cd-m">--</div><div class="cd-lbl">Min</div></div>
             <div class="cd-box"><div class="cd-num" id="cd-s">--</div><div class="cd-lbl">Sek</div></div>
           </div>
-          <p style="margin-top:20px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,3vw,19px);color:#9a6840;text-align:center;">Jedva cekamo da proslavimo zajedno!</p>
+          <p style="margin-top:20px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,3vw,19px);color:#9a6840;text-align:center;">Jedva čekamo da proslavimo zajedno!</p>
         </div>
         <div class="card-bottom">
           <button class="nav-btn" data-dir="prev" aria-label="Nazad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
@@ -653,14 +653,14 @@ const INVITE_MARKUP = `
       <div class="card" id="slide-2">
         <div class="slide-top">
           <div class="icon-circle">&#128141;</div>
-          <p class="slide-h2">Sve sto treba da znate</p>
+          <p class="slide-h2">Sve što treba da znate</p>
           <h2 class="slide-h1">Detalji</h2>
           <div class="deco-line">&#10022;</div>
           <div class="detail-rows">
-            <div class="detail-row"><div class="dr-icon">&#128197;</div><div class="dr-text"><span class="dr-label">Datum</span><span class="dr-value">Subota, 22. august 2026.</span></div></div>
-            <div class="detail-row"><div class="dr-icon">&#9200;</div><div class="dr-text"><span class="dr-label">Vreme</span><span class="dr-value">Ceremonija u 16:00 &middot; Proslava od 18:00</span></div></div>
+            <div class="detail-row"><div class="dr-icon">&#128197;</div><div class="dr-text"><span class="dr-label">Datum</span><span class="dr-value">Subota, 22. avgust 2026.</span></div></div>
+            <div class="detail-row"><div class="dr-icon">&#9200;</div><div class="dr-text"><span class="dr-label">Vrijeme</span><span class="dr-value">Ceremonija u 16:00 &middot; Proslava od 18:00</span></div></div>
             <div class="detail-row"><div class="dr-icon">&#128205;</div><div class="dr-text"><span class="dr-label">Lokacija</span><span class="dr-value">Beograd, Srbija</span></div></div>
-            <div class="detail-row"><div class="dr-icon">&#128248;</div><div class="dr-text"><span class="dr-label">Dress Code</span><span class="dr-value">Svecana elegancija</span></div></div>
+            <div class="detail-row"><div class="dr-icon">&#128248;</div><div class="dr-text"><span class="dr-label">Odjevni kod</span><span class="dr-value">Svečana elegancija</span></div></div>
           </div>
         </div>
         <div class="card-bottom">
@@ -673,12 +673,12 @@ const INVITE_MARKUP = `
       <div class="card" id="slide-3">
         <div class="slide-top">
           <div class="icon-circle">&#128149;</div>
-          <p class="slide-h2">Rec ljubavi</p>
+          <p class="slide-h2">Riječ ljubavi</p>
           <h2 class="slide-h1">Za vas dvoje</h2>
           <div class="deco-line">&#10022;</div>
           <div class="quote-wrap">
             <p><span class="q-mark">&#8222;</span>Ljubav je strpljiva, ljubav je dobra. Ljubav se ne raduje nepravdi, a raduje se istini.<span class="q-mark">&#8220;</span></p>
-            <p class="quote-author">&mdash; 1. Korincani 13:4&ndash;6</p>
+            <p class="quote-author">&mdash; 1. Korinćanima 13:4&ndash;6</p>
           </div>
           <div class="deco-line" style="margin-top:22px;">&#10022;</div>
           <p style="font-family:'Great Vibes',cursive;font-size:clamp(28px,7vw,38px);color:#b07d4a;text-align:center;margin-top:4px;">Sanja &amp; Marko</p>
@@ -697,11 +697,11 @@ const INVITE_MARKUP = `
           <h2 class="slide-h1">Lokacija</h2>
           <div class="deco-line">&#10022;</div>
           <div class="map-frame">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90938.19578338!2d20.3551768!3d44.8176234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a7aa3d7b53fbd%3A0x1db8645cf2177ee4!2sBelgrade%2C%20Serbia!5e0!3m2!1ssr!2s!4v1710000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokacija vencanja"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90938.19578338!2d20.3551768!3d44.8176234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a7aa3d7b53fbd%3A0x1db8645cf2177ee4!2sBelgrade%2C%20Serbia!5e0!3m2!1ssr!2s!4v1710000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokacija vjenčanja"></iframe>
           </div>
           <a class="map-link-btn" href="${MAP_URL}" target="_blank" rel="noopener noreferrer">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            Otvori u Google Maps
+            Otvori u Google mapama
           </a>
         </div>
         <div class="card-bottom">
@@ -715,15 +715,15 @@ const INVITE_MARKUP = `
         <div class="slide-top">
           <div class="icon-circle">&#128247;</div>
           <p class="slide-h2">Skenirajte za navigaciju</p>
-          <h2 class="slide-h1">QR Kod</h2>
+          <h2 class="slide-h1">QR kod</h2>
           <div class="deco-line">&#10022;</div>
           <div class="qr-box">
             <div class="qr-inner">
               <img src="${QR_IMAGE_URL}" alt="QR kod za navigaciju" width="160" height="160" />
             </div>
-            <p class="qr-caption">Navigacija do lokacije vencanja</p>
+            <p class="qr-caption">Navigacija do lokacije vjenčanja</p>
           </div>
-          <p style="margin-top:12px;font-family:'Cormorant Garamond',serif;font-size:clamp(14px,3vw,17px);color:#9a6840;text-align:center;font-style:italic;">Beograd, Srbija &middot; 22. august 2026.</p>
+          <p style="margin-top:12px;font-family:'Cormorant Garamond',serif;font-size:clamp(14px,3vw,17px);color:#9a6840;text-align:center;font-style:italic;">Beograd, Srbija &middot; 22. avgust 2026.</p>
         </div>
         <div class="card-bottom">
           <button class="nav-btn" data-dir="prev" aria-label="Nazad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
@@ -735,19 +735,19 @@ const INVITE_MARKUP = `
       <div class="card" id="slide-6">
         <div class="slide-top">
           <div class="icon-circle">&#128140;</div>
-          <p class="slide-h2">Potvrdite dolazak do 1. avg.</p>
-          <h2 class="slide-h1">RSVP</h2>
+          <p class="slide-h2">Potvrdite dolazak do 1. avgusta.</p>
+          <h2 class="slide-h1">Potvrda dolaska</h2>
           <div class="deco-line">&#10022;</div>
           <form class="rsvp-form" id="rsvpForm" novalidate>
-            <input type="text" id="rsvp-name" placeholder="Vase ime i prezime" required autocomplete="name" />
+            <input type="text" id="rsvp-name" placeholder="Vaše ime i prezime" required autocomplete="name" />
             <select id="rsvp-attend" required>
               <option value="" disabled selected>Da li dolazite?</option>
               <option value="yes">Da, dolazim! &#127881;</option>
-              <option value="no">Nazalost, ne mogu</option>
+              <option value="no">Nažalost, ne mogu</option>
             </select>
-            <input type="number" id="rsvp-guests" placeholder="Broj gostiju (ukljucujuci vas)" min="1" max="20" />
-            <textarea id="rsvp-msg" placeholder="Poruka za mladence (opciono)"></textarea>
-            <button type="submit" class="rsvp-submit">Posalji potvrdu &#10022;</button>
+            <input type="number" id="rsvp-guests" placeholder="Broj gostiju (uključujući vas)" min="1" max="20" />
+            <textarea id="rsvp-msg" placeholder="Poruka za mladence (opcionalno)"></textarea>
+            <button type="submit" class="rsvp-submit">Pošalji potvrdu &#10022;</button>
           </form>
           <div class="rsvp-thanks" id="rsvpThanks">
             <div class="ty-icon">&#127754;</div>
@@ -971,8 +971,8 @@ export default function OnboardingInvite() {
 
       if (attend === "no") {
         if (icon) icon.innerHTML = "&#128144;";
-        if (title) title.textContent = "Hvala sto ste odgovorili!";
-        if (subtitle) subtitle.textContent = "Bice nam nedostajati.";
+        if (title) title.textContent = "Hvala što ste odgovorili!";
+        if (subtitle) subtitle.textContent = "Nedostajaćete nam.";
       }
     };
 

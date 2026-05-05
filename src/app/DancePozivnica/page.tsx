@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import DanceInvite from "@/components/DanceInvite";
 
 export const metadata: Metadata = {
-  title: "DancePozivnica | e-pozivnice.me",
-  description: "Izolovana digitalna muzička pozivnica za Anju i Stefana.",
+  title: "Anja i Stefan | e-pozivnice.me",
+  description: "Digitalna muzička pozivnica za Anju i Stefana.",
 };
 
 export default function DancePozivnicaPage() {

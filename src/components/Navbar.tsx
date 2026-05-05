@@ -128,7 +128,7 @@ export default function Navbar() {
         <button
           className="sm:hidden"
           onClick={toggleMenu}
-          aria-label="Toggle navigation"
+          aria-label={menuOpen ? "Zatvori navigaciju" : "Otvori navigaciju"}
           aria-expanded={menuOpen}
           style={{
             background: "rgba(255,255,255,0.5)",
@@ -170,7 +170,7 @@ export default function Navbar() {
         <>
           <button
             type="button"
-            aria-label="Close navigation menu"
+            aria-label="Zatvori navigacioni meni"
             className={`mobile-nav-backdrop ${menuOpen ? "is-open" : "is-closing"}`}
             onClick={closeMenu}
           />

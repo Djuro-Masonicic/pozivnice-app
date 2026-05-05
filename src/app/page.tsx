@@ -7,6 +7,7 @@ import Image from "next/image";
 
 // ─── constants ────────────────────────────────────────────────────
 const SECTIONS = ["hero", "about", "weddings", "birthdays", "contact"] as const;
+const SECTION_LABELS = ["početak", "o nama", "vjenčanja", "rođendani", "kontakt"] as const;
 
 function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -173,7 +174,7 @@ function EnvelopeHero({ onDone }: { onDone?: () => void }) {
                   fontFamily: "var(--font-cormorant), serif", fontSize: "0.62rem",
                   letterSpacing: "0.38em", textTransform: "uppercase",
                   color: "rgba(26,18,8,0.28)",
-                }}>Montenegro</span>
+                }}>Crna Gora</span>
                 <span style={{ flex: 1, height: "1px", background: "rgba(196,137,111,0.3)" }} />
               </div>
 
@@ -259,7 +260,7 @@ function EnvelopeHero({ onDone }: { onDone?: () => void }) {
                 fontSize: "0.55rem", letterSpacing: "0.35em",
                 textTransform: "uppercase", color: "rgba(26,18,8,0.3)",
                 position: "relative", zIndex: 1,
-              }}>Montenegro</span>
+              }}>Crna Gora</span>
             </div>
           )}
 
@@ -351,7 +352,7 @@ function EnvelopeHero({ onDone }: { onDone?: () => void }) {
             fontFamily: "var(--font-cormorant), serif",
             fontSize: "0.55rem", letterSpacing: "0.35em",
             textTransform: "uppercase", color: "rgba(26,18,8,0.3)",
-          }}>Montenegro</span>
+          }}>Crna Gora</span>
         </div>
       )}
     </div>
@@ -361,7 +362,7 @@ function SectionNav({ active }: { active: number }) {
   const isLight = active !== 4; // only contact section has dark bg
   return (
     <nav
-      aria-label="Section navigation"
+      aria-label="Navigacija kroz sekcije"
       className="section-nav-wrap"
       style={{
         position: "fixed",
@@ -400,7 +401,7 @@ function SectionNav({ active }: { active: number }) {
             </div>
           )}
           <button
-            aria-label={`Navigate to section ${i + 1}`}
+            aria-label={`Idi na sekciju ${SECTION_LABELS[i]}`}
             onClick={() => scrollTo(id)}
             style={{
               width: active === i ? "10px" : "7px",
@@ -1415,7 +1416,7 @@ export default function Home() {
           <Animate delay={350} style={{ width: "100%", marginTop: "0.5rem" }}>
             <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
               {[
-                { label: "Email", value: "epozivnice.me@gmail.com", href: "mailto:epozivnice.me@gmail.com" },
+                { label: "E-pošta", value: "epozivnice.me@gmail.com", href: "mailto:epozivnice.me@gmail.com" },
                 { label: "WhatsApp", value: "+382 69 000 000", href: "https://wa.me/38269000000" },
                 { label: "Instagram", value: "@e_pozivnice.me", href: "https://www.instagram.com/e_pozivnice.me/" },
               ].map(({ label, value, href }, idx) => (

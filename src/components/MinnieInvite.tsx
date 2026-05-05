@@ -609,7 +609,7 @@ const INVITE_MARKUP = String.raw`
           src="https://www.google.com/maps?q=Sala%C5%A1%20Podgorica&output=embed"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
-          title="Salas Podgorica mapa"
+          title="Salaš Podgorica mapa"
         ></iframe>
       </div>
 
